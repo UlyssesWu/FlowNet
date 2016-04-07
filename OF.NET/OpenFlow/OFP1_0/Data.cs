@@ -4,7 +4,35 @@ namespace FlowNet.OpenFlow.OFP1_0
 {
     public class Data
     {
+        /// <summary>
+        /// OF协议版本
+        /// </summary>
         public const byte OFP_VERSION = 0x01;
+
+        /// <summary>
+        /// 描述字符串长度
+        /// </summary>
+        public const int DESC_STR_LEN = 256;
+
+        /// <summary>
+        /// 序列号长度
+        /// </summary>
+        public const int SERIAL_NUM_LEN = 32;
+
+        /// <summary>
+        /// 表名长度
+        /// </summary>
+        public const int OFP_MAX_TABLE_NAME_LEN = 32;
+
+        /// <summary>
+        /// MAC地址长度
+        /// </summary>
+        public const int OFP_MAX_ETH_ALEN = 6;
+
+        /// <summary>
+        /// 端口名长度
+        /// </summary>
+        public const int OFP_MAX_PORT_NAME_LEN = 16;
 
         //Ch.2.5.1
         /// <summary>
@@ -83,8 +111,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         //Ch.2.5.2
         //Ch.2.5.2.1 - Port
-        public const int OFP_MAX_ETH_ALEN = 6;
-        public const int OFP_MAX_PORT_NAME_LEN = 16;
+
 
 
         [Flags]
@@ -626,6 +653,15 @@ namespace FlowNet.OpenFlow.OFP1_0
             /// bodies are otherwise vendor-defined.
             /// </summary>
             OFPST_VENDOR = 0xffff
+        }
+
+        /// <summary>
+        /// <remarks>这不是OFP1.0的官方定义，仅为编程方便</remarks>
+        /// </summary>
+        [Flags]
+        public enum OfpStatsFlagsReply : ushort
+        {
+            OFPSF_REPLY_MORE = 0x0001
         }
 
         //Ch.2.5.4 Asynchronous Message

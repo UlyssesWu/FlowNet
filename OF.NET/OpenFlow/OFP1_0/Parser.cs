@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNet.OpenFlow.OFP1_0
 {
+    /// <summary>
+    /// Writer
+    /// </summary>
     internal class Writer : IDisposable
     {
         private BinaryWriter bw;
         private MemoryStream ms;
+
+        public long Position
+        {
+            get { return bw.BaseStream.Position; }
+        }
+
         public Writer()
         {
             ms = new MemoryStream();
@@ -62,6 +70,15 @@ namespace FlowNet.OpenFlow.OFP1_0
         }
 
         /// <summary>
+        /// int
+        /// </summary>
+        /// <param name="value"></param>
+        public void Write(int value)
+        {
+            bw.Write(value);
+        }
+
+        /// <summary>
         /// ulong
         /// </summary>
         /// <param name="value"></param>
@@ -85,6 +102,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <param name="value"></param>
         public void Write(byte[] value)
         {
+            if (value == null)
+            {
+                return;
+            }
             bw.Write(value);
         }
 
@@ -245,6 +266,78 @@ namespace FlowNet.OpenFlow.OFP1_0
             bw.Write((ushort)configFlags);
         }
 
+        /// <summary>
+        /// OfpFlowModCommand as ushort
+        /// </summary>
+        /// <param name="command"></param>
+        public void Write(OfpFlowModCommand command)
+        {
+            bw.Write((ushort)command);
+        }
+
+        /// <summary>
+        /// OfpFlowModFlags as ushort
+        /// </summary>
+        /// <param name="flags"></param>
+        public void Write(OfpFlowModFlags flags)
+        {
+            bw.Write((ushort)flags);
+        }
+
+        /// <summary>
+        /// OfpStatsTypes as ushort
+        /// </summary>
+        /// <param name="types"></param>
+        public void Write(OfpStatsTypes types)
+        {
+            bw.Write((ushort)types);
+        }
+
+        /// <summary>
+        /// OfpStatsFlags as ushort
+        /// </summary>
+        /// <param name="flags"></param>
+        public void Write(OfpStatsFlagsReply flags)
+        {
+            bw.Write((ushort)flags);
+        }
+
+        /// <summary>
+        /// OfpPacketInReason as byte
+        /// </summary>
+        /// <param name="reason"></param>
+        public void Write(OfpPacketInReason reason)
+        {
+            bw.Write((byte)reason);
+        }
+
+        /// <summary>
+        /// OfpPortReason as byte
+        /// </summary>
+        /// <param name="reason"></param>
+        public void Write(OfpPortReason reason)
+        {
+            bw.Write((byte)reason);
+        }
+
+        /// <summary>
+        /// OfpFlowRemovedReason as byte
+        /// </summary>
+        /// <param name="reason"></param>
+        public void Write(OfpFlowRemovedReason reason)
+        {
+            bw.Write((byte)reason);
+        }
+
+        /// <summary>
+        /// OfpErrorType as ushort
+        /// </summary>
+        /// <param name="type"></param>
+        public void Write(OfpErrorType type)
+        {
+            bw.Write((ushort)type);
+        }
+
         public byte[] ToByteArray()
         {
             bw.Flush();
@@ -302,6 +395,12 @@ namespace FlowNet.OpenFlow.OFP1_0
         public static byte Parse(this BinaryReader br, out byte b)
         {
             b = br.ReadByte();
+            return b;
+        }
+
+        public static int Parse(this BinaryReader br, out int b)
+        {
+            b = br.ReadInt32();
             return b;
         }
 
@@ -404,7 +503,54 @@ namespace FlowNet.OpenFlow.OFP1_0
             b = (OfpConfigFlags)br.ReadUInt16();
             return b;
         }
+        
+        public static OfpFlowModCommand Parse(this BinaryReader br, out OfpFlowModCommand b)
+        {
+            b = (OfpFlowModCommand)br.ReadUInt16();
+            return b;
+        }
 
+        public static OfpFlowModFlags Parse(this BinaryReader br, out OfpFlowModFlags b)
+        {
+            b = (OfpFlowModFlags)br.ReadUInt16();
+            return b;
+        }
+
+        public static OfpStatsTypes Parse(this BinaryReader br, out OfpStatsTypes b)
+        {
+            b = (OfpStatsTypes)br.ReadUInt16();
+            return b;
+        }
+
+        public static OfpStatsFlagsReply Parse(this BinaryReader br, out OfpStatsFlagsReply b)
+        {
+            b = (OfpStatsFlagsReply)br.ReadUInt16();
+            return b;
+        }
+
+        public static OfpPacketInReason Parse(this BinaryReader br, out OfpPacketInReason b)
+        {
+            b = (OfpPacketInReason)br.ReadByte();
+            return b;
+        }
+
+        public static OfpPortReason Parse(this BinaryReader br, out OfpPortReason b)
+        {
+            b = (OfpPortReason)br.ReadByte();
+            return b;
+        }
+
+        public static OfpFlowRemovedReason Parse(this BinaryReader br, out OfpFlowRemovedReason b)
+        {
+            b = (OfpFlowRemovedReason)br.ReadByte();
+            return b;
+        }
+
+        public static OfpErrorType Parse(this BinaryReader br, out OfpErrorType b)
+        {
+            b = (OfpErrorType)br.ReadUInt16();
+            return b;
+        }
         //Writer
 
     }

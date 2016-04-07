@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static FlowNet.OpenFlow.OFP1_0.Data;
@@ -12,7 +11,7 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 动作
     /// </summary>
-    public interface IOfpAction
+    public interface IOfpAction : IToByteArray
     {
         /// <summary>
         /// 动作头
@@ -20,6 +19,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         OfpActionHeader Header { get; }
     }
 
+    
 
     /// <summary>
     /// 动作头
@@ -68,21 +68,82 @@ namespace FlowNet.OpenFlow.OFP1_0
             w.Pad(_pad);
             return w.ToByteArray();
         }
+
+        /// <summary>
+        /// 通过头解析一个动作
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static IOfpAction ParseAction(Stream stream)
+        {
+            if (stream.Length - stream.Position >= 8)
+            {
+                var pos = stream.Position;
+                OfpActionHeader header = new OfpActionHeader(stream);
+                stream.Seek(pos, SeekOrigin.Begin);
+                switch (header.Type)
+                {
+                    case OfpActionType.OFPAT_OUTPUT:
+                        return new OfpActionOutput(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_VLAN_VID:
+                        return new OfpActionVlanVid(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_VLAN_PCP:
+                        return new OfpActionVlanPcp(stream);
+                        break;
+                    case OfpActionType.OFPAT_STRIP_VLAN:
+                        return new OfpActionStripVlan(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_DL_SRC:
+                        return new OfpActionDlAddr(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_DL_DST:
+                        return new OfpActionDlAddr(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_NW_SRC:
+                        return new OfpActionNwAddr(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_NW_DST:
+                        return new OfpActionNwAddr(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_NW_TOS:
+                        return new OfpActionNwTos(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_TP_SRC:
+                        return new OfpActionTpPort(stream);
+                        break;
+                    case OfpActionType.OFPAT_SET_TP_DST:
+                        return new OfpActionTpPort(stream);
+                        break;
+                    case OfpActionType.OFPAT_ENQUEUE:
+                        return new OfpActionEnqueue(stream);
+                        break;
+                    case OfpActionType.OFPAT_VENDOR:
+                        return new OfpActionVendorHeader(stream);
+                        break;
+                    default:
+                        return null;
+                        //throw new FormatException("Can not parse header");
+                }
+            }
+            return null;
+        }
     }
 
     /// <summary>
     /// 输出
     /// </summary>
-    public class OfpActionOutput : IOfpAction, IToByteArray
+    public class OfpActionOutput : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_OUTPUT,
-            Len = 8
+            Type = Data.OfpActionType.OFPAT_OUTPUT, Len = 8
         };
 
         /// <summary>
         /// 出端口
+        /// <remarks>可为OFPP_CONTROLLER或一个物理端口</remarks>
         /// </summary>
         public ushort Port;
 
@@ -92,7 +153,8 @@ namespace FlowNet.OpenFlow.OFP1_0
         public ushort MaxLen;
 
         public OfpActionOutput()
-        { }
+        {
+        }
 
         public OfpActionOutput(Stream stream)
         {
@@ -115,12 +177,11 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 入队列
     /// </summary>
-    public class OfpActionEnqueue : IOfpAction, IToByteArray
+    public class OfpActionEnqueue : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_ENQUEUE,
-            Len = 16
+            Type = Data.OfpActionType.OFPAT_ENQUEUE, Len = 16
         };
 
         /// <summary>
@@ -136,7 +197,8 @@ namespace FlowNet.OpenFlow.OFP1_0
         public uint QueueId;
 
         public OfpActionEnqueue()
-        { }
+        {
+        }
 
         public OfpActionEnqueue(Stream stream)
         {
@@ -161,12 +223,11 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 设置VLAN VID
     /// </summary>
-    public class OfpActionVlanVid : IOfpAction, IToByteArray
+    public class OfpActionVlanVid : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_SET_VLAN_VID,
-            Len = 8
+            Type = Data.OfpActionType.OFPAT_SET_VLAN_VID, Len = 8
         };
 
         /// <summary>
@@ -174,10 +235,12 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <remarks>实际的VLAN ID只有12位。0xFFFF用来表明未设置VLAN ID</remarks>
         /// </summary>
         public ushort VlanVid;
+
         //PAD 2
 
         public OfpActionVlanVid()
-        { }
+        {
+        }
 
         public OfpActionVlanVid(Stream stream)
         {
@@ -186,6 +249,7 @@ namespace FlowNet.OpenFlow.OFP1_0
             br.Parse(out VlanVid);
             br.ReadBytes(2); //PAD 2
         }
+
         public byte[] ToByteArray()
         {
             Writer w = new Writer(Header.Len);
@@ -199,12 +263,11 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 设置VLAN优先级
     /// </summary>
-    public class OfpActionVlanPcp : IOfpAction, IToByteArray
+    public class OfpActionVlanPcp : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_SET_VLAN_PCP,
-            Len = 8
+            Type = Data.OfpActionType.OFPAT_SET_VLAN_PCP, Len = 8
         };
 
         /// <summary>
@@ -216,7 +279,8 @@ namespace FlowNet.OpenFlow.OFP1_0
         //PAD 3
 
         public OfpActionVlanPcp()
-        { }
+        {
+        }
 
         public OfpActionVlanPcp(Stream stream)
         {
@@ -239,14 +303,15 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 剥离VLAN Tag
     /// </summary>
-    public class OfpActionStripVlan : IOfpAction, IToByteArray
+    public class OfpActionStripVlan : IOfpAction
     {
-        public OfpActionHeader Header { get; private set; } = new OfpActionHeader() { Type = Data.OfpActionType.OFPAT_STRIP_VLAN, Len = 8 };
+        public OfpActionHeader Header { get; private set; } = new OfpActionHeader() {Type = Data.OfpActionType.OFPAT_STRIP_VLAN, Len = 8};
 
         //PAD 4
 
         public OfpActionStripVlan()
-        { }
+        {
+        }
 
         public OfpActionStripVlan(Stream stream)
         {
@@ -262,12 +327,11 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 设置源/目的MAC地址
     /// </summary>
-    public class OfpActionDlAddr : IOfpAction, IToByteArray
+    public class OfpActionDlAddr : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_SET_DL_SRC,
-            Len = 16
+            Type = Data.OfpActionType.OFPAT_SET_DL_SRC, Len = 16
         };
 
         /// <summary>
@@ -301,14 +365,50 @@ namespace FlowNet.OpenFlow.OFP1_0
     }
 
     /// <summary>
-    /// 设置IP ToS
+    /// 设置IP地址
     /// </summary>
-    public class OfpActionNwTos : IOfpAction, IToByteArray
+    public class OfpActionNwAddr : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_SET_NW_TOS,
+            Type = Data.OfpActionType.OFPAT_SET_NW_SRC,
             Len = 8
+        };
+
+        /// <summary>
+        /// IP地址
+        /// </summary>
+        public uint NwAddr;
+
+        public OfpActionNwAddr(bool isDst = false)
+        {
+            Header.Type = isDst ? Data.OfpActionType.OFPAT_SET_NW_DST : Data.OfpActionType.OFPAT_SET_NW_SRC;
+        }
+
+        public OfpActionNwAddr(Stream stream)
+        {
+            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            Header = new OfpActionHeader(stream);
+            br.Parse(out NwAddr);
+        }
+
+        public byte[] ToByteArray()
+        {
+            Writer w = new Writer(Header.Len);
+            w.Write(Header.ToByteArray());
+            w.Write(NwAddr);
+            return w.ToByteArray();
+        }
+    }
+
+    /// <summary>
+    /// 设置IP ToS
+    /// </summary>
+    public class OfpActionNwTos : IOfpAction
+    {
+        public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
+        {
+            Type = Data.OfpActionType.OFPAT_SET_NW_TOS, Len = 8
         };
 
         /// <summary>
@@ -319,7 +419,8 @@ namespace FlowNet.OpenFlow.OFP1_0
         //PAD 3
 
         public OfpActionNwTos()
-        { }
+        {
+        }
 
         public OfpActionNwTos(Stream stream)
         {
@@ -339,24 +440,27 @@ namespace FlowNet.OpenFlow.OFP1_0
         }
     }
 
-    public class OfpActionTpPort : IOfpAction, IToByteArray
+    /// <summary>
+    /// 设置目标端口
+    /// </summary>
+    public class OfpActionTpPort : IOfpAction
     {
         public OfpActionHeader Header { get; private set; } = new OfpActionHeader()
         {
-            Type = Data.OfpActionType.OFPAT_SET_TP_SRC,
-            Len = 8
+            Type = Data.OfpActionType.OFPAT_SET_TP_SRC, Len = 8
         };
 
         /// <summary>
         /// TCP/UDP端口
         /// </summary>
         public ushort TpPort;
+
         //PAD 2
 
         public OfpActionTpPort(bool isDst = false)
         {
             Header.Type = isDst ? Data.OfpActionType.OFPAT_SET_TP_DST : Data.OfpActionType.OFPAT_SET_TP_SRC;
-        }   
+        }
 
         public OfpActionTpPort(Stream stream)
         {
@@ -379,34 +483,42 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 厂商自定义动作头
     /// </summary>
-    public class OfpActionVendorHeader : IOfpAction, IToByteArray
+    public class OfpActionVendorHeader : IOfpAction
     {
-        public OfpActionHeader Header { get; private set; } = new OfpActionHeader() { Type = Data.OfpActionType.OFPAT_VENDOR, Len = 0 };
+        public OfpActionHeader Header { get; private set; } = new OfpActionHeader() {Type = Data.OfpActionType.OFPAT_VENDOR, Len = 0};
 
         /// <summary>
         /// 厂商ID
         /// </summary>
         public uint Vendor;
 
+        /// <summary>
+        /// 包内容
+        /// </summary>
+        public byte[] Content;
+
         public OfpActionVendorHeader()
-        { }
+        {
+        }
 
         public OfpActionVendorHeader(Stream stream)
         {
             BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out Vendor);
+            br.Parse(out Content, Header.Len);
         }
 
         public byte[] ToByteArray()
         {
-            if (Header.Len <= 0 || Header.Len % 8 != 0)
+            if (Header.Len <= 0 || Header.Len%8 != 0)
             {
                 throw new ArgumentException("Invalid Length in Header");
             }
             Writer w = new Writer(Header.Len);
             w.Write(Header.ToByteArray());
             w.Write(Vendor);
+            w.Write(Content);
             w.ToByteArray();
             return w.ToByteArray();
         }

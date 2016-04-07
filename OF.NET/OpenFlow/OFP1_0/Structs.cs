@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static FlowNet.OpenFlow.OFP1_0.Data;
@@ -154,25 +153,74 @@ namespace FlowNet.OpenFlow.OFP1_0
             w.Write(Peer);
             return w.ToByteArray();
         }
+
+        /// <summary>
+        /// 判断是否为保留端口
+        /// </summary>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        public static bool IsReservedPort(ushort port)
+        {
+            return Enum.IsDefined(typeof (OfpPort), port);
+        }
+
+        /// <summary>
+        /// 解析一个保留端口
+        /// </summary>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        public static OfpPort ParseReservedPort(ushort port)
+        {
+            switch (port)
+            {
+                case (ushort)OfpPort.OFPP_MAX:
+                    return OfpPort.OFPP_MAX;
+                case (ushort)OfpPort.OFPP_IN_PORT:
+                    return OfpPort.OFPP_IN_PORT;
+                case (ushort)OfpPort.OFPP_TABLE:
+                    return OfpPort.OFPP_TABLE;
+                case (ushort)OfpPort.OFPP_NORMAL:
+                    return OfpPort.OFPP_NORMAL;
+                case (ushort)OfpPort.OFPP_FLOOD:
+                    return OfpPort.OFPP_FLOOD;
+                case (ushort)OfpPort.OFPP_ALL:
+                    return OfpPort.OFPP_ALL;
+                case (ushort)OfpPort.OFPP_CONTROLLER:
+                    return OfpPort.OFPP_CONTROLLER;
+                case (ushort)OfpPort.OFPP_LOCAL:
+                    return OfpPort.OFPP_LOCAL;
+                case (ushort)OfpPort.OFPP_NONE:
+                    return OfpPort.OFPP_NONE;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(port), port, "This port is not a reserved port.");
+            }
+        }
     }
 
+    /// <summary>
+    /// 队列
+    /// </summary>
     public class OfpPacketQueue : IToByteArray
     {
         public const uint Size = 8;
+
         /// <summary>
         /// 特定队列的ID
         /// </summary>
         public uint QueueId;
+
         /// <summary>
         /// Length in bytes of this queue desc.
         /// </summary>
         public ushort Len;
+
         //PAD 2
 
         public List<OfpQueuePropHeader> Properties;
 
         public OfpPacketQueue()
-        { }
+        {
+        }
 
         public OfpPacketQueue(Stream stream)
         {
@@ -198,17 +246,22 @@ namespace FlowNet.OpenFlow.OFP1_0
     public class OfpQueuePropHeader : IToByteArray
     {
         public const uint Size = 8;
+
         /// <summary>
         /// OFPQT_之一
         /// </summary>
         public Data.OfpQueueProperties Property;
+
         /// <summary>
         /// 包含此头在内的属性长度
         /// </summary>
         public ushort Len;
+
         //PAD 4
         public OfpQueuePropHeader()
-        { }
+        {
+        }
+
         public OfpQueuePropHeader(Stream stream)
         {
             BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
@@ -233,17 +286,21 @@ namespace FlowNet.OpenFlow.OFP1_0
     public class OfpQueuePropMinRate : IToByteArray
     {
         public const uint Size = 16;
+
         /// <summary>
         /// prop: OFPQT_MIN_RATE，len: 16
         /// </summary>
-        public OfpQueuePropHeader PropHeader = new OfpQueuePropHeader() { Property = Data.OfpQueueProperties.QFPQT_MIN_RATE };
+        public OfpQueuePropHeader PropHeader = new OfpQueuePropHeader() {Property = Data.OfpQueueProperties.QFPQT_MIN_RATE};
+
         /// <summary>
         /// 1/10比例，>1000为禁用
         /// </summary>
         public ushort Rate;
+
         //PAD 6
         public OfpQueuePropMinRate()
-        { }
+        {
+        }
 
         public OfpQueuePropMinRate(Stream stream)
         {
@@ -274,11 +331,11 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// </summary>
         public Data.OfpFlowWildcards Wildcards
         {
-            get { return (Data.OfpFlowWildcards)_value; }
+            get { return (Data.OfpFlowWildcards) _value; }
             set
             {
                 _value = _value & (OFPFW_NW_SRC_MASK | OFPFW_NW_DST_MASK); //清零非Mask位
-                _value = _value | (uint)value; //设置非Mask位
+                _value = _value | (uint) value; //设置非Mask位
             }
         }
 
@@ -288,11 +345,11 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// </summary>
         public ushort NwSrcMask
         {
-            get { return (ushort)((_value & OFPFW_NW_SRC_MASK) >> OFPFW_NW_SRC_SHIFT); }
+            get { return (ushort) ((_value & OFPFW_NW_SRC_MASK) >> OFPFW_NW_SRC_SHIFT); }
             set
             {
                 _value = _value & (~OFPFW_NW_SRC_MASK); //清零Mask位
-                _value = _value | (((uint)value & ((1 << OFPFW_NW_SRC_BITS) - 1)) << OFPFW_NW_SRC_SHIFT);
+                _value = _value | (((uint) value & ((1 << OFPFW_NW_SRC_BITS) - 1)) << OFPFW_NW_SRC_SHIFT);
             }
         }
 
@@ -302,11 +359,11 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// </summary>
         public ushort NwDstMask
         {
-            get { return (ushort)((_value & OFPFW_NW_DST_MASK) >> OFPFW_NW_DST_SHIFT); }
+            get { return (ushort) ((_value & OFPFW_NW_DST_MASK) >> OFPFW_NW_DST_SHIFT); }
             set
             {
                 _value = _value & (~OFPFW_NW_DST_MASK); //清零Mask位
-                _value = _value | (((uint)value & ((1 << OFPFW_NW_DST_BITS) - 1)) << OFPFW_NW_DST_SHIFT);
+                _value = _value | (((uint) value & ((1 << OFPFW_NW_DST_BITS) - 1)) << OFPFW_NW_DST_SHIFT);
             }
         }
 
@@ -318,14 +375,23 @@ namespace FlowNet.OpenFlow.OFP1_0
         private uint _value;
 
         public OfpWildcards()
-        { }
+        {
+        }
 
+        /// <summary>
+        /// 从流中读一个UInt32生成通配符
+        /// </summary>
+        /// <param name="stream"></param>
         public OfpWildcards(Stream stream)
         {
             BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
             _value = br.ReadUInt32();
         }
 
+        /// <summary>
+        /// 用一个UInt32生成通配符
+        /// </summary>
+        /// <param name="value"></param>
         public OfpWildcards(uint value)
         {
             _value = value;
@@ -340,7 +406,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         {
             if (obj is OfpWildcards)
             {
-                return this._value == ((OfpWildcards)obj).Value;
+                return this._value == ((OfpWildcards) obj).Value;
             }
             return base.Equals(obj);
         }
@@ -420,7 +486,8 @@ namespace FlowNet.OpenFlow.OFP1_0
         public ushort TpDst;
 
         public OfpMatch()
-        { }
+        {
+        }
 
         public OfpMatch(Stream stream)
         {
@@ -464,5 +531,4 @@ namespace FlowNet.OpenFlow.OFP1_0
             return w.ToByteArray();
         }
     }
-
 }

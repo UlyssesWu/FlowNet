@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
 using FlowNet.OpenFlow;
 using FlowNet.OpenFlow.OFP1_0;
@@ -149,7 +151,7 @@ namespace FlowNetTests
                 dst = new OfpSwitchFeatures(ms);
             }
 
-            Assert.AreEqual(src.Actions,dst.Actions);
+            Assert.AreEqual(src.Actions, dst.Actions);
             Assert.AreEqual(src.Capabilities, dst.Capabilities);
             Assert.AreEqual(src.DatapathId, dst.DatapathId);
             Assert.AreEqual(src.NBuffers, dst.NBuffers);
@@ -161,6 +163,37 @@ namespace FlowNetTests
             Assert.IsFalse(dst.Capabilities.HasFlag(OfpCapabilities.OFPC_RESERVED));
             Assert.IsTrue(dst.Actions.HasFlag(OfpActionCapabilities.OFPAT_ENQUEUE));
 
+        }
+
+        [TestMethod]
+        public void TestOfpFlowMod()
+        {
+            OfpFlowMod dst;
+            //A flow entry to redirect all packets which dst-port is 3360(mysql) to dst-port 1433(sqlserver)
+            OfpFlowMod src = new OfpFlowMod()
+            {
+                Command = OfpFlowModCommand.OFPFC_ADD, 
+                Match = new OfpMatch()
+                {
+                    Wildcards = new OfpWildcards() { Wildcards = OfpFlowWildcards.OFPFW_TP_SRC },
+                    TpDst = 3360,
+                },
+                Actions = new ActionList()
+                {
+                    { OfpActionType.OFPAT_SET_TP_DST, new OfpActionTpPort(true) {TpPort = 1433} },
+                    { OfpActionType.OFPAT_OUTPUT, new OfpActionOutput() {Port = (ushort)OfpPort.OFPP_ALL} } //MARK:如何确定发往哪个端口——建立、查询Datapath和MAC数据库
+                }
+            };
+
+            using (MemoryStream ms = new MemoryStream(src.ToByteArray()))
+            {
+                dst = new OfpFlowMod(ms);
+            }
+
+            Assert.AreEqual(src.Match.Wildcards, dst.Match.Wildcards);
+            Assert.AreEqual(src.Match.TpDst, dst.Match.TpDst);
+            Assert.IsTrue(((OfpActionOutput)dst.Actions[OfpActionType.OFPAT_OUTPUT]).Port == (ushort)OfpPort.OFPP_ALL);
+            Assert.IsTrue(((OfpActionTpPort)dst.Actions[OfpActionType.OFPAT_SET_TP_DST]).TpPort == 1433);
         }
     }
 }

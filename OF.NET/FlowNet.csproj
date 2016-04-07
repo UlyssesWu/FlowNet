@@ -37,18 +37,21 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OpenFlow\Helper.cs" />
+    <Compile Include="OpenFlow\OFP1_0\ActionList.cs" />
     <Compile Include="OpenFlow\OFP1_0\Actions.cs" />
+    <Compile Include="OpenFlow\OFP1_0\AsynchronousMessages.cs" />
+    <Compile Include="OpenFlow\OFP1_0\Controller2SwitchMessages.cs" />
     <Compile Include="OpenFlow\OFP1_0\Data.cs" />
-    <Compile Include="OpenFlow\OFP1_0\Messsages.cs" />
+    <Compile Include="OpenFlow\OFP1_0\IOfpMessage.cs" />
     <Compile Include="OpenFlow\OFP1_0\Parser.cs" />
     <Compile Include="OpenFlow\OFP1_0\Structs.cs" />
+    <Compile Include="OpenFlow\OFP1_0\SymmetricMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
