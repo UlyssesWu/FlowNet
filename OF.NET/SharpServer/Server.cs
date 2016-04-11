@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using log4net;
@@ -151,6 +152,8 @@ namespace SharpServer
                     _connectId++;
 
                     var connection = new T { CurrentServer = this,ID = _connectId };
+
+                    //Debug.WriteLine($"{_connectId} connected");
 
                     connection.Disposed += new EventHandler<EventArgs>(AsyncClientConnection_Disposed);
 

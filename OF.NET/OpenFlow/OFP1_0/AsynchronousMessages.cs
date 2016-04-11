@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Be.IO;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 
@@ -49,10 +50,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpPacketIn()
         { }
 
-        public OfpPacketIn(Stream stream)
+        public OfpPacketIn(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out BufferId);
             br.Parse(out TotalLen);
             br.Parse(out InPort);
@@ -149,10 +150,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpFlowRemoved()
         { }
 
-        public OfpFlowRemoved(Stream stream)
+        public OfpFlowRemoved(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             Match = new OfpMatch(stream);
             br.Parse(out Cookie);
             br.Parse(out Priority);
@@ -209,10 +210,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpPortStatus()
         { }
 
-        public OfpPortStatus(Stream stream)
+        public OfpPortStatus(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Reason);
             br.ReadBytes(7);
             Desc = new OfpPhyPort(stream);
@@ -248,10 +249,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpErrorMsg()
         { }
 
-        public OfpErrorMsg(Stream stream)
+        public OfpErrorMsg(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Type);
             br.Parse(out Code);
             int length = (int)(Header.Length - Size);
@@ -277,6 +278,42 @@ namespace FlowNet.OpenFlow.OFP1_0
             return w.ToByteArray();
         }
 
+        /// <summary>
+        /// 取得错误代码
+        /// </summary>
+        /// <returns></returns>
+        public string GetErrorCode()
+        {
+            try
+            {
+                switch (Type)
+                {
+                    case OfpErrorType.OFPET_HELLO_FAILED:
+                        OfpHelloFailedCode c1 = (OfpHelloFailedCode)Code;
+                        return c1.ToString();
+                    case OfpErrorType.OFPET_BAD_REQUEST:
+                        OfpBadRequestCode c2 = (OfpBadRequestCode)Code;
+                        return c2.ToString();
+                    case OfpErrorType.OFPET_BAD_ACTION:
+                        OfpBadActionCode c3 = (OfpBadActionCode)Code;
+                        return c3.ToString();
+                    case OfpErrorType.OFPET_FLOW_MOD_FAILED:
+                        OfpFlowModFailedCode c4 = (OfpFlowModFailedCode)Code;
+                        return c4.ToString();
+                    case OfpErrorType.OFPET_PORT_MOD_FAILED:
+                        OfpPortModFailedCode c5 = (OfpPortModFailedCode)Code;
+                        return c5.ToString();
+                    case OfpErrorType.OFPET_QUEUE_OP_FAILED:
+                        OfpQueueOpFailedCode c6 = (OfpQueueOpFailedCode)Code;
+                        return c6.ToString();
+                    default:
+                        return "Unknown ErrorType";
+                }
+            }
+            catch (Exception)
+            {
+                return "Unknown ErrorCode";
+            }
+        }
     }
-
 }

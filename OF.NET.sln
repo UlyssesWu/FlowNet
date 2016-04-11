@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowNet", "OF.NET\FlowNet.csproj", "{092D8AED-BAF3-4AA9-A5BD-80432BE7222D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowNetTests", "FlowNetTests\FlowNetTests.csproj", "{5A6E1E9A-68B8-4532-B3CC-D6752C6134B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuSslStream", "GnuSslStream\GnuSslStream.csproj", "{E8975487-6509-4663-BB61-14326E1AD464}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowNetConsole", "FlowNetConsole\FlowNetConsole.csproj", "{ECD8ACBC-23F0-4272-B4FC-77D7FC7DA43C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.IO.BigEndian", "System.IO.BigEndian\System.IO.BigEndian\System.IO.BigEndian.csproj", "{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{5A6E1E9A-68B8-4532-B3CC-D6752C6134B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A6E1E9A-68B8-4532-B3CC-D6752C6134B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A6E1E9A-68B8-4532-B3CC-D6752C6134B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8975487-6509-4663-BB61-14326E1AD464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8975487-6509-4663-BB61-14326E1AD464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8975487-6509-4663-BB61-14326E1AD464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8975487-6509-4663-BB61-14326E1AD464}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD8ACBC-23F0-4272-B4FC-77D7FC7DA43C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD8ACBC-23F0-4272-B4FC-77D7FC7DA43C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD8ACBC-23F0-4272-B4FC-77D7FC7DA43C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD8ACBC-23F0-4272-B4FC-77D7FC7DA43C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

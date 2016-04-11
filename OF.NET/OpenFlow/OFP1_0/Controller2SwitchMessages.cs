@@ -5,12 +5,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Be.IO;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNet.OpenFlow.OFP1_0
 {
     /// <summary>
     /// 交换机功能请求消息
+    /// </summary>
+    public class OfpSwitchFeaturesRequest : IOfpMessage
+    {
+        public OfpHeader Header { get; } = new OfpHeader()
+        { Type = OfpType.OFPT_FEATURES_REQUEST, Length = 8 };
+
+        public OfpSwitchFeaturesRequest()
+        { }
+
+        public byte[] ToByteArray()
+        {
+            return Header.ToByteArray();
+        }
+
+    }
+
+    /// <summary>
+    /// 交换机功能回复消息
     /// <remarks>控制器发送仅有消息头的OFPT_FEATURES_REQUEST消息，交换机返回OFPT_FEATURES_REPLY消息</remarks>
     /// </summary>
     public class OfpSwitchFeatures : IOfpMessage
@@ -63,10 +82,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpSwitchFeatures()
         { }
 
-        public OfpSwitchFeatures(Stream stream)
+        public OfpSwitchFeatures(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out DatapathId);
             br.Parse(out NBuffers);
             br.Parse(out NTables);
@@ -117,14 +136,21 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 请求交换机配置消息
     /// </summary>
-    public class OfpSwitchConfigRequest : OfpHeader
+    public class OfpSwitchConfigRequest : IOfpMessage
     {
+        public OfpHeader Header { get; } = new OfpHeader()
+        { Type = OfpType.OFPT_GET_CONFIG_REQUEST, Length = 8 };
+
         public OfpSwitchConfigRequest()
+        { }
+
+        public byte[] ToByteArray()
         {
-            Type = OfpType.OFPT_GET_CONFIG_REQUEST;
+            return Header.ToByteArray();
         }
+
     }
-        
+
     //The OFPT_SET_CONFIG and OFPT_GET_CONFIG_REPLY use the following:
 
     /// <summary>
@@ -152,10 +178,10 @@ namespace FlowNet.OpenFlow.OFP1_0
             Header.Type = isSet ? OfpType.OFPT_SET_CONFIG : OfpType.OFPT_GET_CONFIG_REPLY;
         }
 
-        public OfpSwitchConfig(Stream stream)
+        public OfpSwitchConfig(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Flags);
             br.Parse(out MissSendLen);
         }
@@ -240,10 +266,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpFlowMod()
         { }
 
-        public OfpFlowMod(Stream stream)
+        public OfpFlowMod(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             //var pos = stream.Position;
             Match = new OfpMatch(stream);
             //pos = stream.Position;
@@ -317,10 +343,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpQueueGetConfigRequest()
         { }
 
-        public OfpQueueGetConfigRequest(Stream stream)
+        public OfpQueueGetConfigRequest(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Port);
             br.ReadBytes(2);
         }
@@ -357,10 +383,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpQueueGetConfigReply()
         { }
 
-        public OfpQueueGetConfigReply(Stream stream)
+        public OfpQueueGetConfigReply(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Port);
             br.ReadBytes(6); //PAD 6
             var count = (Header.Length - Size) / OfpPacketQueue.Size;
@@ -420,10 +446,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpStatsRequest()
         { }
 
-        public OfpStatsRequest(Stream stream)
+        public OfpStatsRequest(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Type);
             br.Parse(out Flags);
             br.Parse(out Body, (int)(Header.Length - Size));
@@ -476,10 +502,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpStatsReply()
         { }
 
-        public OfpStatsReply(Stream stream)
+        public OfpStatsReply(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Type);
             br.Parse(out Flags);
             br.Parse(out Body, (int)(Header.Length - Size));
@@ -535,9 +561,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpDescStats()
         { }
 
-        public OfpDescStats(Stream stream)
+        public OfpDescStats(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out MfrDesc, DESC_STR_LEN);
             br.Parse(out HwDesc, DESC_STR_LEN);
             br.Parse(out SwDesc, DESC_STR_LEN);
@@ -585,9 +611,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpFlowStatsRequest()
         { }
 
-        public OfpFlowStatsRequest(Stream stream)
+        public OfpFlowStatsRequest(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Match = new OfpMatch(stream);
             br.Parse(out TableId);
             br.ReadBytes(1);
@@ -678,9 +704,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpFlowStats()
         { }
 
-        public OfpFlowStats(Stream stream)
+        public OfpFlowStats(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Length);
             br.Parse(out TableId);
             br.ReadBytes(1);
@@ -754,9 +780,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpAggregateStatsRequest()
         { }
 
-        public OfpAggregateStatsRequest(Stream stream)
+        public OfpAggregateStatsRequest(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Match = new OfpMatch(stream);
             br.Parse(out TableId);
             br.ReadBytes(1);
@@ -800,9 +826,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpAggregateStatsReply()
         { }
 
-        public OfpAggregateStatsReply(Stream stream)
+        public OfpAggregateStatsReply(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PacketCount);
             br.Parse(out ByteCount);
             br.Parse(out FlowCount);
@@ -879,9 +905,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpTableStats()
         { }
 
-        public OfpTableStats(Stream stream)
+        public OfpTableStats(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out TableId);
             br.ReadBytes(3); //PAD 3
             br.Parse(out Name, OFP_MAX_TABLE_NAME_LEN);
@@ -924,9 +950,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpPortStatsRequest()
         { }
 
-        public OfpPortStatsRequest(Stream stream)
+        public OfpPortStatsRequest(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
             br.ReadBytes(6);
         }
@@ -1018,9 +1044,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpPortStats()
         { }
 
-        public OfpPortStats(Stream stream)
+        public OfpPortStats(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
             br.ReadBytes(6);
             br.Parse(out RxPackets);
@@ -1082,9 +1108,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpQueueStatsRequest()
         { }
 
-        public OfpQueueStatsRequest(Stream stream)
+        public OfpQueueStatsRequest(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
             br.ReadBytes(2);
             br.Parse(out QueueId);
@@ -1137,9 +1163,9 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpQueueStats()
         { }
 
-        public OfpQueueStats(Stream stream)
+        public OfpQueueStats(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
             br.ReadBytes(2); //PAD 2
             br.Parse(out QueueId);
@@ -1176,7 +1202,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpVendorStats(Stream stream, int length)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Vendor, 4);
             br.Parse(out Content, length);
         }
@@ -1230,10 +1256,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpPacketOut()
         { }
 
-        public OfpPacketOut(Stream stream)
+        public OfpPacketOut(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out BufferId);
             br.Parse(out InPort);
             br.Parse(out ActionsLen);
@@ -1286,11 +1312,21 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// Barrier保障消息
     /// </summary>
-    public class OfpBarrrier : OfpHeader
+    public class OfpBarrrier : IOfpMessage
     {
+        public OfpHeader Header { get; } = new OfpHeader()
+        { Type = OfpType.OFPT_BARRIER_REQUEST, Length = 8 };
+
+
         public OfpBarrrier(bool isReply = false)
         {
-            Type = isReply ? OfpType.OFPT_BARRIER_REPLY : OfpType.OFPT_BARRIER_REQUEST;
+            Header.Type = isReply ? OfpType.OFPT_BARRIER_REPLY : OfpType.OFPT_BARRIER_REQUEST;
         }
+
+        public byte[] ToByteArray()
+        {
+            return Header.ToByteArray();
+        }
+
     }
 }

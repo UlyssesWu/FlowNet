@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Be.IO;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNet.OpenFlow.OFP1_0
@@ -42,10 +45,19 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpHeader()
         { }
+        public OfpHeader(byte[] stream)
+        {
+            Version = stream[0];
+            //ArraySegment<byte> segment = new ArraySegment<byte>(stream,1,2);
+            //BitConverter.ToUInt16(stream.Skip(1).Take(2).Reverse().ToArray(), 0);
+            Type = (OfpType)stream[1];
+            Length = BitConverter.ToUInt16(stream.Skip(2).Take(2).Reverse().ToArray(), 0);
+            Xid = BitConverter.ToUInt32(stream.Skip(4).Take(4).Reverse().ToArray(), 0);
+        }
 
         public OfpHeader(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Version);
             br.Parse(out Type);
             br.Parse(out Length);
@@ -127,7 +139,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpPhyPort(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
             br.Parse(out HwAddr, OFP_MAX_ETH_ALEN);
             br.Parse(out Name, OFP_MAX_PORT_NAME_LEN);
@@ -224,7 +236,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpPacketQueue(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out QueueId);
             br.Parse(out Len);
             br.ReadBytes(2); //PAD
@@ -264,7 +276,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpQueuePropHeader(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Property);
             br.Parse(out Len);
             br.ReadBytes(4);
@@ -304,7 +316,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpQueuePropMinRate(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             PropHeader = new OfpQueuePropHeader(stream);
             br.Parse(out Rate);
         }
@@ -328,6 +340,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         /// <summary>
         /// 通配位
+        /// <remarks>注意：OFP1.0中，1为屏蔽，0为匹配</remarks>
         /// </summary>
         public Data.OfpFlowWildcards Wildcards
         {
@@ -384,7 +397,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <param name="stream"></param>
         public OfpWildcards(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             _value = br.ReadUInt32();
         }
 
@@ -491,7 +504,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpMatch(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Wildcards);
             br.Parse(out InPort);
             br.Parse(out DlSrc, OFP_MAX_ETH_ALEN);

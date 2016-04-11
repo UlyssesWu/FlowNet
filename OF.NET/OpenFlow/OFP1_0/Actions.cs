@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Be.IO;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNet.OpenFlow.OFP1_0
@@ -45,7 +46,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionHeader(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Type);
             br.Parse(out Len);
             //br.ReadBytes(4); //PAD 4
@@ -54,7 +55,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpActionHeader(Stream stream, int padding)
         {
             _pad = padding;
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Type);
             br.Parse(out Len);
             br.ReadBytes(_pad); //PAD 4
@@ -85,43 +86,30 @@ namespace FlowNet.OpenFlow.OFP1_0
                 {
                     case OfpActionType.OFPAT_OUTPUT:
                         return new OfpActionOutput(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_VLAN_VID:
                         return new OfpActionVlanVid(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_VLAN_PCP:
                         return new OfpActionVlanPcp(stream);
-                        break;
                     case OfpActionType.OFPAT_STRIP_VLAN:
                         return new OfpActionStripVlan(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_DL_SRC:
                         return new OfpActionDlAddr(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_DL_DST:
                         return new OfpActionDlAddr(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_NW_SRC:
                         return new OfpActionNwAddr(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_NW_DST:
                         return new OfpActionNwAddr(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_NW_TOS:
                         return new OfpActionNwTos(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_TP_SRC:
                         return new OfpActionTpPort(stream);
-                        break;
                     case OfpActionType.OFPAT_SET_TP_DST:
                         return new OfpActionTpPort(stream);
-                        break;
                     case OfpActionType.OFPAT_ENQUEUE:
                         return new OfpActionEnqueue(stream);
-                        break;
                     case OfpActionType.OFPAT_VENDOR:
                         return new OfpActionVendorHeader(stream);
-                        break;
                     default:
                         return null;
                         //throw new FormatException("Can not parse header");
@@ -158,7 +146,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionOutput(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out Port);
             br.Parse(out MaxLen);
@@ -202,7 +190,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionEnqueue(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out Port);
             br.ReadBytes(6); //PAD 6
@@ -244,7 +232,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionVlanVid(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out VlanVid);
             br.ReadBytes(2); //PAD 2
@@ -284,7 +272,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionVlanPcp(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out VlanPcp);
             br.ReadBytes(3);
@@ -348,7 +336,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionDlAddr(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out DlAddr, OFP_MAX_ETH_ALEN);
             br.ReadBytes(6);
@@ -387,7 +375,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionNwAddr(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out NwAddr);
         }
@@ -424,7 +412,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionNwTos(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out NwTos);
             br.ReadBytes(3);
@@ -464,7 +452,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionTpPort(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out TpPort);
             br.ReadBytes(2); //PAD 2
@@ -503,7 +491,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         public OfpActionVendorHeader(Stream stream)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = new OfpActionHeader(stream);
             br.Parse(out Vendor);
             br.Parse(out Content, Header.Len);

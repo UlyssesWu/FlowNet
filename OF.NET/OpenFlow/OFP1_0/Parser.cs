@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Be.IO;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNet.OpenFlow.OFP1_0
@@ -12,7 +13,7 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// </summary>
     internal class Writer : IDisposable
     {
-        private BinaryWriter bw;
+        private BeBinaryWriter bw;
         private MemoryStream ms;
 
         public long Position
@@ -23,14 +24,14 @@ namespace FlowNet.OpenFlow.OFP1_0
         public Writer()
         {
             ms = new MemoryStream();
-            bw = new BinaryWriter(ms);
+            bw = new BeBinaryWriter(ms);
         }
 
         public Writer(uint size)
         {
             ms = new MemoryStream();
             ms.SetLength(size);
-            bw = new BinaryWriter(ms);
+            bw = new BeBinaryWriter(ms);
         }
 
         public void SetLength(uint size)
@@ -51,14 +52,15 @@ namespace FlowNet.OpenFlow.OFP1_0
             bw.Write(new byte[length]);
         }
 
-        /// <summary>
-        /// bool
-        /// </summary>
-        /// <param name="value"></param>
-        public void Write(bool value)
-        {
-            bw.Write(value);
-        }
+        //MARK: bool is dangerous because it is 8 byte length in C#
+        ///// <summary>
+        ///// bool
+        ///// </summary>
+        ///// <param name="value"></param>
+        //public void Write(bool value)
+        //{
+        //    bw.Write(value);
+        //}
 
         /// <summary>
         /// uint
@@ -355,11 +357,11 @@ namespace FlowNet.OpenFlow.OFP1_0
     {
 
         /// <summary>
-        /// Read a string in unicode, no matter what encode <paramref name="reader">BinaryReader</paramref> is.
+        /// Read a string in unicode, no matter what encode <paramref name="reader">BeBinaryReader</paramref> is.
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static string ReadUnicodeString(this BinaryReader reader)
+        public static string ReadUnicodeString(this BeBinaryReader reader)
         {
             StringBuilder sb = new StringBuilder();
             long startPos = reader.BaseStream.Position;
@@ -373,11 +375,11 @@ namespace FlowNet.OpenFlow.OFP1_0
         }
 
         /// <summary>
-        /// Read a string in ASCII and end with 0x00(NULL), no matter what encode <paramref name="reader">BinaryReader</paramref> is.
+        /// Read a string in ASCII and end with 0x00(NULL), no matter what encode <paramref name="reader">BeBinaryReader</paramref> is.
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static string ReadSigleByteString(this BinaryReader reader)
+        public static string ReadSigleByteString(this BeBinaryReader reader)
         {
             StringBuilder sb = new StringBuilder();
             long startPos = reader.BaseStream.Position;
@@ -392,161 +394,161 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         //Reader
 
-        public static byte Parse(this BinaryReader br, out byte b)
+        public static byte Parse(this BeBinaryReader br, out byte b)
         {
             b = br.ReadByte();
             return b;
         }
 
-        public static int Parse(this BinaryReader br, out int b)
+        public static int Parse(this BeBinaryReader br, out int b)
         {
             b = br.ReadInt32();
             return b;
         }
 
-        public static OfpType Parse(this BinaryReader br, out OfpType b)
+        public static OfpType Parse(this BeBinaryReader br, out OfpType b)
         {
             b = (OfpType)br.ReadByte();
             return b;
         }
 
-        public static string Parse(this BinaryReader br, out string b, int maxLength)
+        public static string Parse(this BeBinaryReader br, out string b, int maxLength)
         {
             b = new string(br.ReadChars(maxLength)).Replace("\0", "");
             return b;
         }
 
-        public static byte[] Parse(this BinaryReader br, out byte[] b, int maxLength)
+        public static byte[] Parse(this BeBinaryReader br, out byte[] b, int maxLength)
         {
             b = br.ReadBytes(maxLength);
             return b;
         }
 
-        public static OfpPort Parse(this BinaryReader br, out OfpPort b)
+        public static OfpPort Parse(this BeBinaryReader br, out OfpPort b)
         {
             b = (OfpPort)br.ReadUInt16();
             return b;
         }
 
-        public static ushort Parse(this BinaryReader br, out ushort b)
+        public static ushort Parse(this BeBinaryReader br, out ushort b)
         {
             b = br.ReadUInt16();
             return b;
         }
 
-        public static uint Parse(this BinaryReader br, out uint b)
+        public static uint Parse(this BeBinaryReader br, out uint b)
         {
             b = br.ReadUInt32();
             return b;
         }
 
-        public static ulong Parse(this BinaryReader br, out ulong b)
+        public static ulong Parse(this BeBinaryReader br, out ulong b)
         {
             b = br.ReadUInt64();
             return b;
         }
 
-        public static OfpPortConfig Parse(this BinaryReader br, out OfpPortConfig b)
+        public static OfpPortConfig Parse(this BeBinaryReader br, out OfpPortConfig b)
         {
             b = (OfpPortConfig)br.ReadUInt32();
             return b;
         }
-        public static OfpPortState Parse(this BinaryReader br, out OfpPortState b)
+        public static OfpPortState Parse(this BeBinaryReader br, out OfpPortState b)
         {
             b = (OfpPortState)br.ReadUInt32();
             return b;
         }
-        public static OfpPortFeatures Parse(this BinaryReader br, out OfpPortFeatures b)
+        public static OfpPortFeatures Parse(this BeBinaryReader br, out OfpPortFeatures b)
         {
             b = (OfpPortFeatures)br.ReadUInt32();
             return b;
         }
 
-        public static OfpQueueProperties Parse(this BinaryReader br, out OfpQueueProperties b)
+        public static OfpQueueProperties Parse(this BeBinaryReader br, out OfpQueueProperties b)
         {
             b = (OfpQueueProperties)br.ReadUInt16();
             return b;
         }
 
-        public static OfpFlowWildcards Parse(this BinaryReader br, out OfpFlowWildcards b)
+        public static OfpFlowWildcards Parse(this BeBinaryReader br, out OfpFlowWildcards b)
         {
             b = (OfpFlowWildcards)br.ReadUInt32();
             return b;
         }
 
-        public static OfpWildcards Parse(this BinaryReader br, out OfpWildcards b)
+        public static OfpWildcards Parse(this BeBinaryReader br, out OfpWildcards b)
         {
             b = new OfpWildcards(br.ReadUInt32());
             return b;
         }
 
-        public static OfpActionType Parse(this BinaryReader br, out OfpActionType b)
+        public static OfpActionType Parse(this BeBinaryReader br, out OfpActionType b)
         {
             b = (OfpActionType)br.ReadUInt16();
             return b;
         }
 
-        public static OfpCapabilities Parse(this BinaryReader br, out OfpCapabilities b)
+        public static OfpCapabilities Parse(this BeBinaryReader br, out OfpCapabilities b)
         {
             b = (OfpCapabilities)br.ReadUInt32();
             return b;
         }
 
-        public static OfpActionCapabilities Parse(this BinaryReader br, out OfpActionCapabilities b)
+        public static OfpActionCapabilities Parse(this BeBinaryReader br, out OfpActionCapabilities b)
         {
             b = (OfpActionCapabilities)br.ReadUInt32();
             return b;
         }
 
-        public static OfpConfigFlags Parse(this BinaryReader br, out OfpConfigFlags b)
+        public static OfpConfigFlags Parse(this BeBinaryReader br, out OfpConfigFlags b)
         {
             b = (OfpConfigFlags)br.ReadUInt16();
             return b;
         }
         
-        public static OfpFlowModCommand Parse(this BinaryReader br, out OfpFlowModCommand b)
+        public static OfpFlowModCommand Parse(this BeBinaryReader br, out OfpFlowModCommand b)
         {
             b = (OfpFlowModCommand)br.ReadUInt16();
             return b;
         }
 
-        public static OfpFlowModFlags Parse(this BinaryReader br, out OfpFlowModFlags b)
+        public static OfpFlowModFlags Parse(this BeBinaryReader br, out OfpFlowModFlags b)
         {
             b = (OfpFlowModFlags)br.ReadUInt16();
             return b;
         }
 
-        public static OfpStatsTypes Parse(this BinaryReader br, out OfpStatsTypes b)
+        public static OfpStatsTypes Parse(this BeBinaryReader br, out OfpStatsTypes b)
         {
             b = (OfpStatsTypes)br.ReadUInt16();
             return b;
         }
 
-        public static OfpStatsFlagsReply Parse(this BinaryReader br, out OfpStatsFlagsReply b)
+        public static OfpStatsFlagsReply Parse(this BeBinaryReader br, out OfpStatsFlagsReply b)
         {
             b = (OfpStatsFlagsReply)br.ReadUInt16();
             return b;
         }
 
-        public static OfpPacketInReason Parse(this BinaryReader br, out OfpPacketInReason b)
+        public static OfpPacketInReason Parse(this BeBinaryReader br, out OfpPacketInReason b)
         {
             b = (OfpPacketInReason)br.ReadByte();
             return b;
         }
 
-        public static OfpPortReason Parse(this BinaryReader br, out OfpPortReason b)
+        public static OfpPortReason Parse(this BeBinaryReader br, out OfpPortReason b)
         {
             b = (OfpPortReason)br.ReadByte();
             return b;
         }
 
-        public static OfpFlowRemovedReason Parse(this BinaryReader br, out OfpFlowRemovedReason b)
+        public static OfpFlowRemovedReason Parse(this BeBinaryReader br, out OfpFlowRemovedReason b)
         {
             b = (OfpFlowRemovedReason)br.ReadByte();
             return b;
         }
 
-        public static OfpErrorType Parse(this BinaryReader br, out OfpErrorType b)
+        public static OfpErrorType Parse(this BeBinaryReader br, out OfpErrorType b)
         {
             b = (OfpErrorType)br.ReadUInt16();
             return b;

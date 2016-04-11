@@ -164,7 +164,7 @@ namespace FlowNetTests
             Assert.IsTrue(dst.Actions.HasFlag(OfpActionCapabilities.OFPAT_ENQUEUE));
 
         }
-
+        
         [TestMethod]
         public void TestOfpFlowMod()
         {
@@ -175,7 +175,7 @@ namespace FlowNetTests
                 Command = OfpFlowModCommand.OFPFC_ADD, 
                 Match = new OfpMatch()
                 {
-                    Wildcards = new OfpWildcards() { Wildcards = OfpFlowWildcards.OFPFW_TP_SRC },
+                    Wildcards = new OfpWildcards() { Wildcards = ~OfpFlowWildcards.OFPFW_TP_SRC },
                     TpDst = 3360,
                 },
                 Actions = new ActionList()

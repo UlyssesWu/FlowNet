@@ -1,9 +1,14 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpServer
 {
     public static class Helper
     {
+        public static T RunSync<T>(this Task<T> tast)
+        {
+            return Task.Run<Task<T>>(() => tast).Unwrap().GetAwaiter().GetResult();
+        }
         public static bool IsDefault<T>(this T value) where T : struct
         {
             return value.Equals(default(T));

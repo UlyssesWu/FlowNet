@@ -31,10 +31,12 @@ namespace SharpServer
         protected string ClientIP { get; set; }
 
         protected abstract void Write(byte[] content);
+
         /// <summary>
         /// 处理消息
         /// </summary>
-        /// <param name="cmd"></param>
+        /// <param name="message"></param>
+        /// <param name="state"></param>
         /// <returns></returns>
         protected abstract byte[] HandleMessage(byte[] message);
 
@@ -44,7 +46,7 @@ namespace SharpServer
         {
         }
 
-        protected virtual void OnMessageComplete(byte[] content)
+        protected virtual void OnMessageComplete(object state)
         {
         }
 
@@ -64,35 +66,35 @@ namespace SharpServer
             return total;
         }
 
-        /// <summary>
-        /// 流传输
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="output"></param>
-        /// <param name="bufferSize"></param>
-        /// <param name="encoding">编码方式</param>
-        /// <param name="performanceCounterAction">计数器操作</param>
-        /// <returns></returns>
-        protected virtual long CopyStream(Stream input, Stream output, int bufferSize, Encoding encoding, Action<int> performanceCounterAction)
-        {
-            char[] buffer = new char[bufferSize];
-            int count = 0;
-            long total = 0;
+        //    /// <summary>
+        //    /// 流传输
+        //    /// </summary>
+        //    /// <param name="input"></param>
+        //    /// <param name="output"></param>
+        //    /// <param name="bufferSize"></param>
+        //    /// <param name="encoding">编码方式</param>
+        //    /// <param name="performanceCounterAction">计数器操作</param>
+        //    /// <returns></returns>
+        //    protected virtual long CopyStream(Stream input, Stream output, int bufferSize, Encoding encoding, Action<int> performanceCounterAction)
+        //    {
+        //        char[] buffer = new char[bufferSize];
+        //        int count = 0;
+        //        long total = 0;
 
-            using (StreamReader rdr = new StreamReader(input))
-            {
-                using (StreamWriter wtr = new StreamWriter(output, encoding))
-                {
-                    while ((count = rdr.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        wtr.Write(buffer, 0, count);
-                        total += count;
-                        performanceCounterAction(count);
-                    }
-                }
-            }
+        //        using (StreamReader rdr = new StreamReader(input))
+        //        {
+        //            using (StreamWriter wtr = new StreamWriter(output, encoding))
+        //            {
+        //                while ((count = rdr.Read(buffer, 0, buffer.Length)) > 0)
+        //                {
+        //                    wtr.Write(buffer, 0, count);
+        //                    total += count;
+        //                    performanceCounterAction(count);
+        //                }
+        //            }
+        //        }
 
-            return total;
-        }
+        //        return total;
+        //    }
     }
 }

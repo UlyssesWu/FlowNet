@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Be.IO;
 using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNet.OpenFlow.OFP1_0
@@ -15,15 +16,15 @@ namespace FlowNet.OpenFlow.OFP1_0
     {
         public const uint Size = 8;
         public OfpHeader Header { get; private set; } = new OfpHeader()
-        {Type = OfpType.OFPT_HELLO,Length = 8};
+        { Type = OfpType.OFPT_HELLO, Length = 8 };
 
         public OfpHello()
-        {}
+        { }
 
-        public OfpHello(Stream stream)
+        public OfpHello(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             var length = Header.Length - Size;
             if (length > 0)
             {
@@ -55,10 +56,10 @@ namespace FlowNet.OpenFlow.OFP1_0
             Header.Type = isReply ? OfpType.OFPT_ECHO_REPLY : OfpType.OFPT_ECHO_REQUEST;
         }
 
-        public OfpEcho(Stream stream)
+        public OfpEcho(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             var length = Header.Length - Size;
             if (length > 0)
             {
@@ -92,19 +93,19 @@ namespace FlowNet.OpenFlow.OFP1_0
     {
         public const uint Size = 12;
         public OfpHeader Header { get; private set; } = new OfpHeader()
-        {Type = OfpType.OFPT_VENDOR};
+        { Type = OfpType.OFPT_VENDOR };
 
         public byte[] Vendor;
 
         public byte[] Data;
 
         public OfpVendorHeader()
-        {}
+        { }
 
-        public OfpVendorHeader(Stream stream)
+        public OfpVendorHeader(Stream stream, OfpHeader header = null)
         {
-            BinaryReader br = new BinaryReader(stream, Encoding.ASCII, true);
-            Header = new OfpHeader(stream);
+            BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
+            Header = header ?? new OfpHeader(stream);
             br.Parse(out Vendor, 4);
             var length = Header.Length - Size;
             if (length > 0)

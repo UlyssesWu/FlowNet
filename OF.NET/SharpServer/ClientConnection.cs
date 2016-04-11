@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpServer
 {
@@ -37,6 +39,38 @@ namespace SharpServer
             Read(ControlStream);
         }
 
+        protected virtual async Task<byte[]> ReadAsync(int length)
+        {
+            return await ReadAsync(ControlStream, length);
+        }
+
+        protected virtual async Task WriteAsync(byte[] content)
+        {
+            if (content == null)
+            {
+                return;
+            }
+            var stream = ControlStream;
+            if (_disposed || !stream.CanWrite)
+            {
+                Dispose();
+                return;
+            }
+
+            //_log.Debug(content);
+
+            try
+            {
+                await stream.WriteAsync(content, 0, content.Length);
+                //stream.BeginWrite(content, 0, content.Length, WriteCallback, stream);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                Dispose();
+            }
+        }
+
         /// <summary>
         /// Begins an asynchronous read from the provided <paramref name="stream"/>.
         /// <para>从提供的流<paramref name="stream"/>中开始异步读。</para>
@@ -59,6 +93,41 @@ namespace SharpServer
                 _log.Error(ex);
                 Dispose();
             }
+        }
+
+        /// <summary>
+        /// Begins an asynchronous read from the provided <paramref name="stream"/>.
+        /// <para>从提供的流<paramref name="stream"/>中开始异步读。</para>
+        /// </summary>
+        /// <param name="stream">The stream to read from.</param>
+        protected virtual async Task<byte[]> ReadAsync(Stream stream, int length)
+        {
+            if (_disposed || !stream.CanRead)
+            {
+                Dispose();
+                return null;
+            }
+
+            try
+            {
+                var buffer = new byte[length];
+                int count = await stream.ReadAsync(buffer, 0, length);
+                if (count == 0)
+                {
+                    Debug.WriteLine("count = 0");
+                    // End read returns 0 bytes if the socket closed...
+                    Dispose();
+                    return null;
+                }
+                return buffer;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                _log.Error(ex);
+                Dispose();
+            }
+            return null;
         }
 
         /// <summary>
@@ -87,7 +156,8 @@ namespace SharpServer
 
             try
             {
-                stream.BeginWrite(content, 0, content.Length, WriteCallback, stream);
+                stream.Write(content,0,content.Length);
+                //stream.BeginWrite(content, 0, content.Length, WriteCallback, stream);
             }
             catch (Exception ex)
             {
@@ -232,6 +302,7 @@ namespace SharpServer
                 return;
             }
 
+            object state = null;
             byte[] r = HandleMessage(_buffer);
 
             if (ControlClient != null && ControlClient.Connected)
@@ -247,7 +318,7 @@ namespace SharpServer
                     return;
                 }
 
-                OnMessageComplete(_buffer);
+                OnMessageComplete(state);
 
                 r = null;
 
