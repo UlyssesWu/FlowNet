@@ -43,6 +43,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
+    <Compile Include="IController.cs" />
+    <Compile Include="IConnection.cs" />
     <Compile Include="OfClientConnection.cs" />
     <Compile Include="OfController.cs" />
     <Compile Include="OpenFlow\Helper.cs" />
@@ -63,11 +66,22 @@
     <Compile Include="OpenFlow\OFP1_0\Parser.cs" />
     <Compile Include="OpenFlow\OFP1_0\Structs.cs" />
     <Compile Include="OpenFlow\OFP1_0\SymmetricMessages.cs" />
+    <Compile Include="Plugins\Helper.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\MessageHandler.cs" />
+    <Compile Include="Plugins\OrderedDictionary.cs" />
+    <Compile Include="Plugins\PluginSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpServer\ClientConnection.cs" />
     <Compile Include="SharpServer\ClientConnectionBase.cs" />
     <Compile Include="SharpServer\Helper.cs" />
     <Compile Include="SharpServer\Server.cs" />
+    <Compile Include="Topology\Dijkstra.cs" />
+    <Compile Include="Topology\Host.cs" />
+    <Compile Include="Topology\IEntity.cs" />
+    <Compile Include="Topology\Port.cs" />
+    <Compile Include="Topology\Switch.cs" />
+    <Compile Include="Topology\Topo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -82,6 +96,7 @@
       <Name>System.IO.BigEndian</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

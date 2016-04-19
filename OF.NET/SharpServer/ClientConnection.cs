@@ -39,12 +39,17 @@ namespace SharpServer
             Read(ControlStream);
         }
 
-        protected virtual async Task<byte[]> ReadAsync(int length)
+        /// <summary>
+        /// 异步读
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public virtual async Task<byte[]> ReadAsync(int length)
         {
             return await ReadAsync(ControlStream, length);
         }
 
-        protected virtual async Task WriteAsync(byte[] content)
+        public virtual async Task WriteAsync(byte[] content)
         {
             if (content == null)
             {
@@ -76,7 +81,7 @@ namespace SharpServer
         /// <para>从提供的流<paramref name="stream"/>中开始异步读。</para>
         /// </summary>
         /// <param name="stream">The stream to read from.</param>
-        protected virtual void Read(Stream stream)
+        public virtual void Read(Stream stream)
         {
             if (_disposed || !stream.CanRead)
             {
@@ -134,7 +139,7 @@ namespace SharpServer
         /// Asynchronously writes <paramref name="content"/> to the control connection stream.
         /// </summary>
         /// <param name="content">The text to write.</param>
-        protected override void Write(byte[] content)
+        public void Write(byte[] content)
         {
             Write(ControlStream, content);
         }

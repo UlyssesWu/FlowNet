@@ -365,7 +365,7 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 交换机回复队列配置
     /// </summary>
-    public class OfpQueueGetConfigReply : IOfpMessage
+    public class OfpQueueGetConfig : IOfpMessage
     {
         public const uint Size = 16;
         public OfpHeader Header { get; private set; } = new OfpHeader()
@@ -380,10 +380,10 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// </summary>
         public List<OfpPacketQueue> Queues;
 
-        public OfpQueueGetConfigReply()
+        public OfpQueueGetConfig()
         { }
 
-        public OfpQueueGetConfigReply(Stream stream, OfpHeader header = null)
+        public OfpQueueGetConfig(Stream stream, OfpHeader header = null)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             Header = header ?? new OfpHeader(stream);
@@ -769,12 +769,21 @@ namespace FlowNet.OpenFlow.OFP1_0
     {
         public const uint Size = 44;
 
+        /// <summary>
+        /// 匹配域
+        /// </summary>
         public OfpMatch Match;
-
+        
+        /// <summary>
+        /// 表ID
+        /// </summary>
         public byte TableId;
 
         //PAD 1
 
+        /// <summary>
+        /// 出端口
+        /// </summary>
         public ushort OutPort;
 
         public OfpAggregateStatsRequest()
@@ -803,7 +812,7 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// 多流回复消息 for OFPST_AGGREGATE
     /// </summary>
-    public class OfpAggregateStatsReply : IToByteArray
+    public class OfpAggregateStats : IToByteArray
     {
         public const uint Size = 24;
         /// <summary>
@@ -823,10 +832,10 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         //PAD 4
 
-        public OfpAggregateStatsReply()
+        public OfpAggregateStats()
         { }
 
-        public OfpAggregateStatsReply(Stream stream, OfpHeader header = null)
+        public OfpAggregateStats(Stream stream, OfpHeader header = null)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PacketCount);

@@ -30,7 +30,7 @@ namespace SharpServer
         /// </summary>
         protected string ClientIP { get; set; }
 
-        protected abstract void Write(byte[] content);
+        //public abstract void Write(byte[] content);
 
         /// <summary>
         /// 处理消息

@@ -13,6 +13,7 @@ namespace SharpServer
     /// <typeparam name="T">特定客户端连接方式</typeparam>
     public class Server<T> : IDisposable where T : ClientConnection, new()
     {
+
         private static readonly object _listLock = new object();
 
         private ILog _log = LogManager.GetLogger(typeof(Server<T>));
@@ -132,6 +133,10 @@ namespace SharpServer
         {
         }
 
+        protected virtual void OnConnected(T connection)
+        {
+        }
+
         private void HandleAcceptTcpClient(IAsyncResult result)
         {
             //一个客户成功连接
@@ -161,6 +166,8 @@ namespace SharpServer
 
                     lock (_listLock)
                         _state.Add(connection);
+
+                    OnConnected(connection);
                 }
                 catch (SocketException e)
                 {

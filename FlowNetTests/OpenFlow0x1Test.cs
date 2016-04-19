@@ -11,6 +11,9 @@ using static FlowNet.OpenFlow.OFP1_0.Data;
 
 namespace FlowNetTests
 {
+    /// <summary>
+    /// 测试OFP1.0
+    /// </summary>
     [TestClass]
     public class OpenFlow0x1Test
     {

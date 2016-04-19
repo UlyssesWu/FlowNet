@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowNetConsole", "FlowNetCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.IO.BigEndian", "System.IO.BigEndian\System.IO.BigEndian\System.IO.BigEndian.csproj", "{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowNet.Discovery", "FlowNet.Discovery\FlowNet.Discovery.csproj", "{265399E7-03CC-4BE1-A9FD-C6E88CD6FB19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9F850DD-8624-40C7-9ED2-3587FB9C3DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{265399E7-03CC-4BE1-A9FD-C6E88CD6FB19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{265399E7-03CC-4BE1-A9FD-C6E88CD6FB19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{265399E7-03CC-4BE1-A9FD-C6E88CD6FB19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{265399E7-03CC-4BE1-A9FD-C6E88CD6FB19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
