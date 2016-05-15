@@ -51,7 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper.cs" />
+    <Compile Include="EthernetAddress.cs" />
+    <Compile Include="Topology\Link.cs" />
+    <Compile Include="Util.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IConnection.cs" />
     <Compile Include="OfClientConnection.cs" />
@@ -78,19 +80,19 @@
     <Compile Include="SharpServer\Server.cs" />
     <Compile Include="Topology\Dijkstra.cs" />
     <Compile Include="Topology\Host.cs" />
-    <Compile Include="Topology\IEntity.cs" />
-    <Compile Include="Topology\Port.cs" />
+    <Compile Include="Topology\Entity.cs" />
     <Compile Include="Topology\Switch.cs" />
     <Compile Include="Topology\Topo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
+    <None Include="FlowNet.log4net">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GnuSslStream\GnuSslStream.csproj">
-      <Project>{e8975487-6509-4663-bb61-14326e1ad464}</Project>
-      <Name>GnuSslStream</Name>
-    </ProjectReference>
     <ProjectReference Include="..\System.IO.BigEndian\System.IO.BigEndian\System.IO.BigEndian.csproj">
       <Project>{b9f850dd-8624-40c7-9ed2-3587fb9c3dca}</Project>
       <Name>System.IO.BigEndian</Name>

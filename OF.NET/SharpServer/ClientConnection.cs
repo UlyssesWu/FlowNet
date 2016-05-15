@@ -176,7 +176,7 @@ namespace SharpServer
         /// <para>Sets up the class to handle the communication to the given TcpClient.</para>
         /// </summary>
         /// <param name="client">The TcpClient to communicate with.</param>
-        public override void HandleClient(object obj)
+        public async override void HandleClient(object obj)
         {
             TcpClient client = obj as TcpClient;
 

@@ -12,13 +12,14 @@ using SharpServer;
 
 namespace FlowNet
 {
-    public delegate void ClientConnectedHandler(IConnection connection);
+    public delegate void ClientConnectionHandler(IConnection connection);
 
     public class OfController : Server<OfClientConnection>, IController
     {
         protected ILog _log = LogManager.GetLogger(typeof(OfController));
 
-        public event ClientConnectedHandler OnClientConnected;
+        public event ClientConnectionHandler OnClientConnected;
+        public event ClientConnectionHandler OnClientDisconnecting;
         public IDictionary<string, object> Variables { get; } = new Dictionary<string, object>();
 
         public Topo Topo => _topo;
@@ -76,6 +77,11 @@ namespace FlowNet
         protected override void OnConnected(OfClientConnection connection)
         {
             OnClientConnected?.Invoke(connection);
+        }
+
+        protected override void OnDisconnecting(OfClientConnection connection)
+        {
+            OnClientDisconnecting?.Invoke(connection);
         }
     }
 }

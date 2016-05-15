@@ -79,9 +79,10 @@ namespace FlowNet.Plugins
         /// 处理包进入消息
         /// </summary>
         /// <param name="packetIn"></param>
+        /// <param name="packet"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public virtual bool PacketIn(OfpPacketIn packetIn, IConnection handler)
+        public virtual bool PacketIn(OfpPacketIn packetIn, object packet, IConnection handler)
         {
             return false;
         }
@@ -111,10 +112,10 @@ namespace FlowNet.Plugins
         /// <summary>
         /// 处理Barrier消息
         /// </summary>
-        /// <param name="barrrier"></param>
+        /// <param name="barrier"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public virtual bool Barrier(OfpBarrrier barrrier, IConnection handler)
+        public virtual bool Barrier(OfpBarrier barrier, IConnection handler)
         {
             return false;
         }

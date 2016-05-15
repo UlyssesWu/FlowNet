@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{265399E7-03CC-4BE1-A9FD-C6E88CD6FB19}</ProjectGuid>
+    <ProjectGuid>{7C600EE0-5C85-47DF-B244-CD0989E3E979}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlowNet.Discovery</RootNamespace>
-    <AssemblyName>FlowNet.Discovery</AssemblyName>
+    <RootNamespace>FlowNet.Switch</RootNamespace>
+    <AssemblyName>FlowNet.Switch</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Discovery.cs" />
+    <Compile Include="L3Switch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

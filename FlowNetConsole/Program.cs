@@ -13,6 +13,8 @@ namespace FlowNetConsole
         {
             Console.Title = "FlowNet by Ulysses";
             OfController controller = new OfController(6633);
+            controller.LoadPlugins(Environment.CurrentDirectory);
+            controller.LoadLogConfigsFromFile("FlowNet.log4net");
             controller.Start();
             Console.WriteLine("FlowNet Started!");
             Console.ReadLine();

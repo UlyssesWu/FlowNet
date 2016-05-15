@@ -138,7 +138,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <summary>
         /// 发送到控制器的最大长度
         /// </summary>
-        public ushort MaxLen;
+        public ushort MaxLen = ushort.MaxValue - 1;
 
         public OfpActionOutput()
         {

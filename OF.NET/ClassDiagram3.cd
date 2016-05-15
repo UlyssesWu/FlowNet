@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionHeader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgIAAgIAAAAAAAAAAAAAAAQACAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionOutput" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="12.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAIAAAIAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionEnqueue" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="10.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAQAAIAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionVlanVid" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionVlanPcp" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionStripVlan" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="13" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionDlAddr" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionNwAddr" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="10" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionNwTos" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="11.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionTpPort" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="13.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpActionVendorHeader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="14.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAgAAAAAAAIAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPacketIn" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAAAAgAIAAIAAAAgAQAAAABAAAAAAIAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\AsynchronousMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpFlowRemoved" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAhAAEAAAgAIEAIAAACACAAAAACAAAAAAAIAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\AsynchronousMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPortStatus" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="8.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgAIAAIAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\AsynchronousMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpErrorMsg" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgAAAAIAgAAAAQAAAABAAIQAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\AsynchronousMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpSwitchFeaturesRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="13" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpSwitchFeatures" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAMAAQgAAABIAAAAAIQAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpSwitchConfigRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="13.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpSwitchConfig" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="13.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAABgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpFlowMod" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAABhAEIAAAgAAEAIAABCAAQAAAAAAAAACAIAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpQueueGetConfigRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="14.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpQueueGetConfig" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="14.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgAAAAIAAAAAASAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpStatsRequest" Collapsed="true">
+    <Position X="13" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAABAAAAAAAgAAAAIABAAAAQAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpStatsReply" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAABAAAAAAAgAAAAIABAAAAQAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpDescStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAgAAAAIAAAAAAAAAAAAAABAAIAAAhAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpFlowStatsRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="10.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAgAAAAIAAAAQAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpFlowStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAhAEMAAAgAAEAIAAACRCQAAAACAAAAAAAIAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpAggregateStatsRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="12.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAgAAAAIAAAAQAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpAggregateStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAgAAAAIAAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpTableStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAoAAAAQAAAgAAAAgAAAAAAACAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPortStatsRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="11.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAiAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPortStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="11.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAaAAACAAiEABAIAQAAAAAAQABAAACAAAAAAgAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpQueueStatsRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="10" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAiAQAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpQueueStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAACAAiAQBAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpVendorStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAIAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPacketOut" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="7.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAIAAAgAAAAIAAAAAAQAAAABAAAACAIAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpBarrier" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="9.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Controller2SwitchMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.Data" Collapsed="true">
+    <Position X="7.25" Y="14.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QAABAAQAgAAAAAAACAAABAAAQAAGAAAAAAEBCABAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpHeader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAgAAAAIAAAgBAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPhyPort" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAEAAgAAiBACAJCAAAQAAAIAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpPacketQueue" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgIQAAIAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpQueuePropHeader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgIAAAIAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpQueuePropMinRate" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="11.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpWildcards" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAgAAAgIAAAAAAAEgAAAAAAAAgAAQAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpMatch" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAyCAEAAAIAgAAAAIBAAgAAgCgAAAAAAEAgAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpHello" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\SymmetricMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpEcho" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgAAAAIAAAAAAQAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\SymmetricMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlowNet.OpenFlow.OFP1_0.OfpVendorHeader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="8.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgAAAAIAAAAAAQAAAABBAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\SymmetricMessages.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="FlowNet.OpenFlow.OFP1_0.IOfpAction" Collapsed="true">
+    <Position X="6.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Actions.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FlowNet.OpenFlow.OFP1_0.IOfpMessage" Collapsed="true">
+    <Position X="8.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\IOfpMessage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FlowNet.OpenFlow.OFP1_0.IToByteArray" Collapsed="true">
+    <Position X="7.25" Y="12.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenFlow\OFP1_0\Structs.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft YaHei UI" Size="9.98" />
+</ClassDiagram>

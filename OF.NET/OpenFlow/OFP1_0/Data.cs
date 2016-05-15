@@ -93,7 +93,7 @@ namespace FlowNet.OpenFlow.OFP1_0
             //Controller command messages
             OFPT_PACKET_OUT,
             OFPT_FLOW_MOD,
-            PFPT_PORT_MOD,
+            OFPT_PORT_MOD,
 
             //Statistics messages
             OFPT_STATS_REQUEST,
@@ -343,6 +343,10 @@ namespace FlowNet.OpenFlow.OFP1_0
             /// IP ToS (DSCP field, 6 bits).
             /// </summary>
             OFPFW_NW_TOS = 1 << 21,
+            /// <summary>
+            /// All
+            /// </summary>
+            OFPFW_ALL = ((1 << 22) - 1)
         }
 
         /* IP source address wildcard bit count.  0 is exact match, 1 ignores the
@@ -666,6 +670,9 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         //Ch.2.5.4 Asynchronous Message
         //Ch.2.5.4.1
+        /// <summary>
+        /// 1字节
+        /// </summary>
         public enum OfpPacketInReason : byte //uint8_t
         {
             /// <summary>

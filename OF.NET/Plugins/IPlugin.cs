@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace FlowNet.Plugins
 {
-    public interface IPlugin
+    public interface IPlugin: IDisposable
     {
         bool Active { get; set; }
+        int Priority { get; set; }
+
         void Init(IController controller);
         MessageHandler MessageHandler { get; }
     }
@@ -16,7 +18,6 @@ namespace FlowNet.Plugins
     public interface IPlugInfo
     {
         string Name { get; }
-        int Priority { get; }
         string Description { get; }
     }
 }

@@ -137,6 +137,10 @@ namespace SharpServer
         {
         }
 
+        protected virtual void OnDisconnecting(T connection)
+        {
+        }
+
         private void HandleAcceptTcpClient(IAsyncResult result)
         {
             //一个客户成功连接
@@ -182,6 +186,8 @@ namespace SharpServer
             if (!_disposing)
             {
                 T connection = (T)sender;
+
+                OnDisconnecting(connection);
 
                 lock (_listLock)
                     _state.Remove(connection);

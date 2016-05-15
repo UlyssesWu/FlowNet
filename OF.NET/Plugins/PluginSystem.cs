@@ -33,13 +33,13 @@ namespace FlowNet.Plugins
         {
             Plugins = new OrderedDictionary<string, IPlugin>();
             var ps = from lzPlugin in _plugins
-            orderby lzPlugin.Metadata.Priority descending
-            select lzPlugin;
+                     orderby lzPlugin.Value.Priority descending
+                     select lzPlugin;
             foreach (var p in ps)
             {
                 if (!Plugins.ContainsKey(p.Metadata.Name))
                 {
-                    Plugins.Add(p.Metadata.Name,p.Value);
+                    Plugins.Add(p.Metadata.Name, p.Value);
                 }
             }
             foreach (var plugin in Plugins.Values)
@@ -54,7 +54,7 @@ namespace FlowNet.Plugins
         }
 
         public void Init(string path)
-        {            
+        {
             //An aggregate catalog that combines multiple catalogs
             var catalog = new AggregateCatalog();
             //Adds all the parts found in the same assembly as the Program class
@@ -240,13 +240,13 @@ namespace FlowNet.Plugins
         /// <param name="packetIn"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public virtual bool PacketIn(OfpPacketIn packetIn, IConnection handler)
+        public virtual bool PacketIn(OfpPacketIn packetIn, object packet, IConnection handler)
         {
             foreach (var plugin in Plugins.Values.Where(plugin => plugin.Active))
             {
                 try
                 {
-                    bool result = plugin.MessageHandler.PacketIn(packetIn, handler);
+                    bool result = plugin.MessageHandler.PacketIn(packetIn, packet, handler);
                     if (result)
                     {
                         break;
@@ -315,16 +315,16 @@ namespace FlowNet.Plugins
         /// <summary>
         /// 处理Barrier消息
         /// </summary>
-        /// <param name="barrrier"></param>
+        /// <param name="barrier"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public virtual bool Barrier(OfpBarrrier barrrier, IConnection handler)
+        public virtual bool Barrier(OfpBarrier barrier, IConnection handler)
         {
             foreach (var plugin in Plugins.Values.Where(plugin => plugin.Active))
             {
                 try
                 {
-                    bool result = plugin.MessageHandler.Barrier(barrrier, handler);
+                    bool result = plugin.MessageHandler.Barrier(barrier, handler);
                     if (result)
                     {
                         break;
@@ -547,7 +547,7 @@ namespace FlowNet.Plugins
             }
             return true;
         }
-#endregion
+        #endregion
     }
 
     //internal class PluginHandler : MessageHandler

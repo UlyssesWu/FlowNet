@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.NetworkInformation;
 using FlowNet.Topology;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PacketDotNet;
+using PacketDotNet.LLDP;
+using PacketDotNet.Utils;
+using System.Xml;
 
 namespace FlowNetTests
 {
@@ -12,6 +18,7 @@ namespace FlowNetTests
     [TestClass]
     public class TopoTest
     {
+
         public TopoTest()
         {
         }
@@ -75,6 +82,41 @@ namespace FlowNetTests
             var dst = sb.ToString();
             var src = "BFH";
             Assert.AreEqual(src,dst);
+
+            Dijkstra<Entity> g2 = new Dijkstra<Entity>();
+            //Host h1 = new Host();
+            //h1.SetIpAddress(IPAddress.Parse("10.0.0.1"));
+
+            StringBuilder sb2 = new StringBuilder();
+            //g2.FindShortestPath("A", "H").ForEach(x => sb2.Insert(0, x));
+            var dst2 = sb2.ToString();
+            var src2 = "BFH";
+            Assert.AreEqual(src2, dst2);
+        }
+
+        public static readonly PhysicalAddress NDP_MULTICAST =
+           new PhysicalAddress(new byte[] { 0x01, 0x23, 0x20, 0x00, 0x00, 0x01 });
+
+        public byte[] GenerateLldpPacket(PhysicalAddress switchMac, uint portNum, ulong dpid)
+        {
+            LLDPPacket packet = new LLDPPacket();
+            packet.TlvCollection.Add(new ChassisID(switchMac));
+            packet.TlvCollection.Add(new PortID(PortSubTypes.PortComponent, BitConverter.GetBytes(portNum)));
+            packet.TlvCollection.Add(new TimeToLive(120));
+            packet.TlvCollection.Add(new SystemDescription(dpid.ToString("X")));
+            packet.TlvCollection.Add(new EndOfLLDPDU());
+            packet = new LLDPPacket(new ByteArraySegment(packet.Bytes));
+            
+            EthernetPacket ethernet = new EthernetPacket(switchMac, NDP_MULTICAST, EthernetPacketType.LLDP);
+            ethernet.PayloadPacket = packet;
+
+            return ethernet.Bytes;
+        }
+
+        [TestMethod]
+        public void LldpTest()
+        {
+            var b = GenerateLldpPacket(NDP_MULTICAST, 3389, 12345);
         }
     }
 }

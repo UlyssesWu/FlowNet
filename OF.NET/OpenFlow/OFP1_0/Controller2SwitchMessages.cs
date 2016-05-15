@@ -243,7 +243,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <summary>
         /// 被OFPT_PACKET_IN消息发出的网包在buffer中的ID
         /// </summary>
-        public uint BufferId;
+        public uint BufferId = uint.MaxValue;
 
         /// <summary>
         /// （可选）删除操作时的匹配
@@ -561,7 +561,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpDescStats()
         { }
 
-        public OfpDescStats(Stream stream, OfpHeader header = null)
+        public OfpDescStats(Stream stream)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out MfrDesc, DESC_STR_LEN);
@@ -704,7 +704,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpFlowStats()
         { }
 
-        public OfpFlowStats(Stream stream, OfpHeader header = null)
+        public OfpFlowStats(Stream stream)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out Length);
@@ -835,7 +835,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpAggregateStats()
         { }
 
-        public OfpAggregateStats(Stream stream, OfpHeader header = null)
+        public OfpAggregateStats(Stream stream)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PacketCount);
@@ -914,7 +914,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpTableStats()
         { }
 
-        public OfpTableStats(Stream stream, OfpHeader header = null)
+        public OfpTableStats(Stream stream)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out TableId);
@@ -1053,7 +1053,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpPortStats()
         { }
 
-        public OfpPortStats(Stream stream, OfpHeader header = null)
+        public OfpPortStats(Stream stream)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
@@ -1172,7 +1172,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         public OfpQueueStats()
         { }
 
-        public OfpQueueStats(Stream stream, OfpHeader header = null)
+        public OfpQueueStats(Stream stream)
         {
             BeBinaryReader br = new BeBinaryReader(stream, Encoding.ASCII, true);
             br.Parse(out PortNo);
@@ -1238,7 +1238,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <summary>
         /// Datapath ID （若无则为-1）
         /// </summary>
-        public uint BufferId;
+        public uint BufferId = uint.MaxValue;
 
         /// <summary>
         /// 包的入端口（若无则为OFPP_NONE）
@@ -1254,7 +1254,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// 动作
         /// <remarks>如果Output的出端口为OFPP_TABLE，则<see cref="InPort"/>将被用于流表的查询</remarks>
         /// </summary>
-        public ActionList Actions;
+        public ActionList Actions = new ActionList();
 
         /// <summary>
         /// 数据包内容
@@ -1321,15 +1321,20 @@ namespace FlowNet.OpenFlow.OFP1_0
     /// <summary>
     /// Barrier保障消息
     /// </summary>
-    public class OfpBarrrier : IOfpMessage
+    public class OfpBarrier : IOfpMessage
     {
         public OfpHeader Header { get; } = new OfpHeader()
         { Type = OfpType.OFPT_BARRIER_REQUEST, Length = 8 };
 
 
-        public OfpBarrrier(bool isReply = false)
+        public OfpBarrier(bool isReply = false)
         {
             Header.Type = isReply ? OfpType.OFPT_BARRIER_REPLY : OfpType.OFPT_BARRIER_REQUEST;
+        }
+
+        public OfpBarrier(OfpHeader header)
+        {
+            Header = header;
         }
 
         public byte[] ToByteArray()

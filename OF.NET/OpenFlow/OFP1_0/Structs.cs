@@ -354,7 +354,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         /// <summary>
         /// IP源地址通配位
-        /// <remarks>0为精确匹配，1忽略最低位，2忽略后两位，32及以上全部通配</remarks>
+        /// <remarks>0为精确匹配，1忽略最低位，2忽略后两位，32及以上全部通配（即不匹配IP）</remarks>
         /// </summary>
         public ushort NwSrcMask
         {
@@ -368,7 +368,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         /// <summary>
         /// IP目的地址通配位
-        /// <remarks>0为精确匹配，1忽略最低位，2忽略后两位，32及以上全部通配</remarks>
+        /// <remarks>0为精确匹配，1忽略最低位，2忽略后两位，32及以上全部通配（即不匹配IP）</remarks>
         /// </summary>
         public ushort NwDstMask
         {
@@ -432,7 +432,7 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// <summary>
         /// 通配
         /// </summary>
-        public OfpWildcards Wildcards;
+        public OfpWildcards Wildcards = new OfpWildcards() {Wildcards = OfpFlowWildcards.OFPFW_ALL};
 
         /// <summary>
         /// 入端口
@@ -441,18 +441,18 @@ namespace FlowNet.OpenFlow.OFP1_0
 
         /// <summary>
         /// 以太网源地址
-        /// </summary>
+       
+        /// <summary>
+        /// 以太网目的地址 /// </summary>
         public byte[] DlSrc = new byte[OFP_MAX_ETH_ALEN];
 
-        /// <summary>
-        /// 以太网目的地址
         /// </summary>
         public byte[] DlDst = new byte[OFP_MAX_ETH_ALEN];
 
         /// <summary>
         /// 入VLAN ID
         /// </summary>
-        public ushort DlVlan;
+        public ushort DlVlan = 65535;
 
         /// <summary>
         /// 入VLAN优先级

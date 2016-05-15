@@ -47,6 +47,13 @@ namespace FlowNet.OpenFlow.OFP1_0
         /// </summary>
         public byte[] Data;
 
+        /* Ethernet frame, halfway through 32-bit word,
+        so the IP header is 32-bit aligned. The
+        amount of data is inferred from the length
+        field in the header. Because of padding,
+        offsetof(struct ofp_packet_in, data) ==
+        sizeof(struct ofp_packet_in) - 2. */
+
         public OfpPacketIn()
         { }
 
@@ -59,7 +66,7 @@ namespace FlowNet.OpenFlow.OFP1_0
             br.Parse(out InPort);
             br.Parse(out Reason);
             br.ReadBytes(1);
-            int length = (int)(Header.Length - Size);
+            int length = (int)(Header.Length - Size + 2); //FIXED:
             Data = br.ReadBytes(length);
         }
 
@@ -188,6 +195,7 @@ namespace FlowNet.OpenFlow.OFP1_0
 
     /// <summary>
     /// 端口状态消息
+    /// <remarks>当物理端口被添加/修改/移除时，控制器将收到此消息</remarks>
     /// </summary>
     public class OfpPortStatus : IOfpMessage
     {
