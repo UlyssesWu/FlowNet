@@ -49,6 +49,7 @@ namespace FlowNet
         private void Init()
         {
             PluginSystem = new PluginSystem(this);
+            LogDebug($"#FlowNet Start at {DateTime.Now}");
         }
         
         public void LoadPlugins(string path)
@@ -69,6 +70,11 @@ namespace FlowNet
             _log.Info(message);
         }
 
+        public void LogDebug(string debug)
+        {
+            _log.Debug(debug);
+        }
+
         public void LogError(string error)
         {
             _log.Error(error);
@@ -81,6 +87,7 @@ namespace FlowNet
 
         protected override void OnDisconnecting(OfClientConnection connection)
         {
+            LogInfo($"[{connection.Mac}] Disconnected.");
             OnClientDisconnecting?.Invoke(connection);
         }
     }

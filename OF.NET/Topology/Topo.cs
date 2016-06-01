@@ -32,15 +32,6 @@ namespace FlowNet.Topology
 
         public ConcurrentDictionary<string, ConcurrentDictionary<string, Link>> Adjacency = new ConcurrentDictionary<string, ConcurrentDictionary<string, Link>>();
 
-        private static void Test()
-        {
-            PhysicalAddress physical = PhysicalAddress.Parse("00-01-02-03-04-05");
-            var s = physical.ToString();
-            ulong dpid = 012345678;
-            s = dpid.ToSwitchString();
-            var d2 = s.ToSwitchDpid();
-        }
-
         public void AddSwitch(OfpSwitchFeatures switchFeatures, IConnection connection)
         {
             var name = switchFeatures.DatapathId.ToSwitchString();

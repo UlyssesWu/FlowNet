@@ -48,7 +48,7 @@ namespace FlowNet.Discovery
         {
             _controller.Topo.AddSwitch(connection.SwitchFeatures, connection);
 
-            Console.WriteLine(($"[{connection.Mac}] Installing Discovery Flow"));
+            _controller.LogDebug($"[{connection.Mac}] Installing Discovery Flow");
             OfpMatch match = new OfpMatch
             {
                 Wildcards = new OfpWildcards() { Wildcards = OfpFlowWildcards.OFPFW_DL_TYPE | OfpFlowWildcards.OFPFW_DL_DST},
@@ -105,7 +105,7 @@ namespace FlowNet.Discovery
             {
                 return false;
             }
-            Console.WriteLine($"[{connection.Mac}] Sending LLDP to Port:{port.PortNo} (PortMAC:{port.HwAddr.ToPhysicalAddress()})");
+            _controller.LogDebug($"[{connection.Mac}] Sending LLDP to Port:{port.PortNo} (PortMAC:{port.HwAddr.ToPhysicalAddress()})");
             OfpPacketOut packetOut = new OfpPacketOut
             {
                 Data =
@@ -167,7 +167,7 @@ namespace FlowNet.Discovery
             {
                 port = BitConverter.ToUInt16((byte[]) po.SubTypeValue, 0);
             }
-            Console.WriteLine($"[{connection.Mac}:{packetIn.InPort}] is connected with [{ch?.MACAddress}:{port}] (Get LLDP)");
+            _controller.LogDebug($"[{connection.Mac}:{packetIn.InPort}] is connected with [{ch?.MACAddress}:{port}] (Get LLDP)");
 
             //Update Topo
             _controller.Topo.AddTwoWayLink(dpid, port, connection.SwitchFeatures.DatapathId, packetIn.InPort);
@@ -194,7 +194,7 @@ namespace FlowNet.Discovery
         public override bool PortStatus(OfpPortStatus status, IConnection handler)
         {
             if (status.Reason == OfpPortReason.OFPPR_ADD || status.Reason == OfpPortReason.OFPPR_MODIFY)
-            {
+            { 
                 SendLldpPacket(handler, status.Desc);
             }
             if (status.Reason == OfpPortReason.OFPPR_DELETE)

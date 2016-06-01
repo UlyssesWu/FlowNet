@@ -57,7 +57,7 @@ namespace SharpServer
             if (_disposed)
                 throw new ObjectDisposedException("AsyncServer");
 
-            _log.Info("#" + _logHeader + DateTime.Now);
+            _log.Info("#" + _logHeader + " " + DateTime.Now);
             _state = new List<T>();
             Listeners = new List<TcpListener>();
 

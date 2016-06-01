@@ -196,3 +196,6 @@ FakesAssemblies/
 *.opt
 /OF.NET/SharpServer
 /GnuSslStream
+/OF.NET/*.cd
+*.cd
+/OF.NET/*.cd

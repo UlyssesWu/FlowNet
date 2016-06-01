@@ -42,7 +42,8 @@ namespace FlowNet
                 return;
             }
 
-            Console.WriteLine($"[{_mac}] message={header.Type.ToString()}");
+            _log.Debug($"[{_mac}] message={header.Type.ToString()}");
+            //Console.WriteLine($"[{_mac}] message={header.Type.ToString()}");
 
             if (!_inited)
             {
@@ -50,7 +51,8 @@ namespace FlowNet
                 if (_versionChecked && _configChecked && _featureChecked)
                 {
                     _inited = true;
-                    Console.WriteLine($"[{_mac}] inited.");
+                    _log.Info($"[{_mac}] inited.");
+                    //Console.WriteLine($"[{_mac}] inited.");
                     OnConnectionReady?.Invoke(this);
                 }
                 return;
@@ -283,7 +285,8 @@ namespace FlowNet
         {
             OfpErrorMsg error = new OfpErrorMsg(ms, header);
             Debug.WriteLine($"[{_mac}] ERROR:{error.Type} - {error.GetErrorCode()}");
-            Console.WriteLine($"[{_mac}] ERROR:{error.Type} - {error.GetErrorCode()}");
+            _log.Info($"[{_mac}] ERROR:{error.Type} - {error.GetErrorCode()}");
+            //Console.WriteLine($"[{_mac}] ERROR:{error.Type} - {error.GetErrorCode()}");
             _controller.PluginSystem.Error(error, this);
         }
 
@@ -300,14 +303,16 @@ namespace FlowNet
                 _version = header.Version;
                 _versionChecked = true;
                 var reply = new OfpSwitchFeaturesRequest();
-                Console.WriteLine("Request for features");
+                _log.Debug("Request for features");
+                //Console.WriteLine("Request for features");
                 Write(reply.ToByteArray());
             }
             else if (header.Type == OfpType.OFPT_FEATURES_REPLY)
             {
                 OfpSwitchFeatures features = new OfpSwitchFeatures(ms, header);
                 _mac = features.DatapathId.GetPhysicalAddress();
-                Console.WriteLine($"A switch connected - MAC={_mac}");
+                _log.Info($"A switch connected - MAC={_mac}");
+                //Console.WriteLine($"A switch connected - MAC={_mac}");
                 foreach (var ofpPhyPort in features.Ports)
                 {
                     //Console.WriteLine($"\tPortNum={ofpPhyPort.PortNo} \tPortName={ofpPhyPort.Name} \tPortState={ofpPhyPort.State.ToString()}");
@@ -324,7 +329,8 @@ namespace FlowNet
             else if (header.Type == OfpType.OFPT_GET_CONFIG_REPLY)
             {
                 OfpSwitchConfig config = new OfpSwitchConfig(ms, header);
-                Console.WriteLine($"[{_mac}] Config: Flag={config.Flags} MissSendLen={config.MissSendLen}");
+                _log.Info($"[{_mac}] Config: Flag={config.Flags} MissSendLen={config.MissSendLen}");
+                //Console.WriteLine($"[{_mac}] Config: Flag={config.Flags} MissSendLen={config.MissSendLen}");
                 _configChecked = true;
                 return;
             }
@@ -340,7 +346,8 @@ namespace FlowNet
             else if (header.Type == OfpType.OFPT_ERROR)
             {
                 OfpErrorMsg error = new OfpErrorMsg(ms, header);
-                Console.WriteLine($"[{_mac}] Error: type={error.Type.ToString()} code={error.GetErrorCode()}");
+                _log.Info($"[{_mac}] Error: type={error.Type.ToString()} code={error.GetErrorCode()}");
+                //Console.WriteLine($"[{_mac}] Error: type={error.Type.ToString()} code={error.GetErrorCode()}");
                 return;
             }
 

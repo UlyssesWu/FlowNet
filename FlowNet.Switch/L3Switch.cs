@@ -88,7 +88,7 @@ namespace FlowNet.Switch
                     }
                     foreach (var host in _controller.Topo.Hosts.Values)
                     {
-                        if (Equals(host.IpAddress, arp.TargetProtocolAddress) && host.HasIpAddress)
+                        if (Equals(host.IpAddress, arp.TargetProtocolAddress) && host.HasIpAddress) //已知该主机信息，直接回复 TODO: ARP信息过期
                         {
                             ARPPacket reply = new ARPPacket(ARPOperation.Response, arp.SenderHardwareAddress,
                                 arp.SenderProtocolAddress, host.MacAddress, host.IpAddress);
@@ -118,8 +118,8 @@ namespace FlowNet.Switch
                     {
                         if (_controller.Topo.Switches.ContainsKey(key))
                         {
-                            Console.WriteLine("send ARP back");
                             var link = _controller.Topo.Adjacency[key][dst];
+                            _controller.LogDebug($"[{_controller.Topo.Switches[key].Connection.Mac}]send ARP back");
                             OfpPacketOut packetOut = new OfpPacketOut() { Data = p.Bytes };
                             packetOut.Actions.Add(OfpActionType.OFPAT_OUTPUT, new OfpActionOutput() { Port = link.SrcPort });
                             _controller.Topo.Switches[key].Connection.Write(packetOut.ToByteArray());
@@ -317,7 +317,7 @@ namespace FlowNet.Switch
                 Match = match,
             };
             flow.Actions[OfpActionType.OFPAT_OUTPUT] = new OfpActionOutput() { Port = link.SrcPort };
-            Console.WriteLine($"[{sw.MacAddress}]FlowMod from [{src}] to [{dst}]");
+            _controller.LogDebug($"[{sw.MacAddress}]FlowMod from [{src}] to [{dst}]");
             sw.Connection.Write(flow.ToByteArray());
         }
 
@@ -336,7 +336,7 @@ namespace FlowNet.Switch
                 Match = match
             };
             flow.Actions[OfpActionType.OFPAT_OUTPUT] = new OfpActionOutput() { Port = link.SrcPort };
-            Console.WriteLine($"[{connection.Mac}]FlowMod from [{src}] to [{dst}]");
+            _controller.LogDebug($"[{connection.Mac}]FlowMod from [{src}] to [{dst}]");
             connection.Write(flow.ToByteArray());
         }
 
@@ -354,7 +354,7 @@ namespace FlowNet.Switch
                 Match = match
             };
             flow.Actions[OfpActionType.OFPAT_OUTPUT] = new OfpActionOutput() { Port = link.SrcPort };
-            Console.WriteLine($"[{connection.Mac}]FlowMod from [{src}] to [{dst}]");
+            _controller.LogDebug($"[{connection.Mac}]FlowMod from [{src}] to [{dst}]");
             connection.Write(flow.ToByteArray());
         }
 
@@ -372,13 +372,13 @@ namespace FlowNet.Switch
                 Match = match
             };
             flow.Actions[OfpActionType.OFPAT_OUTPUT] = new OfpActionOutput() { Port = link.SrcPort };
-            Console.WriteLine($"[{sw.MacAddress}]FlowMod from [{src}] to [{dst}]");
+            _controller.LogDebug($"[{sw.MacAddress}]FlowMod from [{src}] to [{dst}]");
             sw.Connection.Write(flow.ToByteArray());
         }
 
         private void Flood(Packet packet, IConnection connection, uint bufferId = uint.MaxValue)
         {
-            Console.WriteLine($"[{connection.Mac}]Flood packet");
+            _controller.LogDebug($"[{connection.Mac}]Flood packet");
             OfpPacketOut packetOut = new OfpPacketOut() { Data = packet.Bytes};
             packetOut.Actions.Add(OfpActionType.OFPAT_OUTPUT, new OfpActionOutput() { Port = (ushort)OfpPort.OFPP_FLOOD });
             connection.Write(packetOut.ToByteArray());
