@@ -12,7 +12,7 @@ using static FlowNet.OpenFlow.OFP1_0.Data;
 namespace FlowNetTests
 {
     /// <summary>
-    /// 测试OFP1.0
+    /// Test OF Proto 1.0
     /// </summary>
     [TestClass]
     public class OpenFlow0x1Test
@@ -172,19 +172,19 @@ namespace FlowNetTests
         public void TestOfpFlowMod()
         {
             OfpFlowMod dst;
-            //A flow entry to redirect all packets which dst-port is 3360(mysql) to dst-port 1433(sqlserver)
+            //A flow entry to redirect all packets which dst-port is 3306(mysql) to dst-port 1433(sqlserver)
             OfpFlowMod src = new OfpFlowMod()
             {
                 Command = OfpFlowModCommand.OFPFC_ADD, 
                 Match = new OfpMatch()
                 {
                     Wildcards = new OfpWildcards() { Wildcards = ~OfpFlowWildcards.OFPFW_TP_SRC },
-                    TpDst = 3360,
+                    TpDst = 3306,
                 },
                 Actions = new ActionList()
                 {
                     { OfpActionType.OFPAT_SET_TP_DST, new OfpActionTpPort(true) {TpPort = 1433} },
-                    { OfpActionType.OFPAT_OUTPUT, new OfpActionOutput() {Port = (ushort)OfpPort.OFPP_ALL} } //MARK:如何确定发往哪个端口——建立、查询Datapath和MAC数据库
+                    { OfpActionType.OFPAT_OUTPUT, new OfpActionOutput() {Port = (ushort)OfpPort.OFPP_ALL} }
                 }
             };
 
